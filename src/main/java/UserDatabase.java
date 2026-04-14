@@ -128,6 +128,41 @@ public class UserDatabase{
 		}
 	}
 
+	/**
+	 * Inserts a new review into the userReviews table
+	 * @param artist the artist name
+	 * @param album the album name
+	 * @param review the user written review text
+	 * @param author the userId of the user who wrote the review
+	 * @param albumId the albumId of the album that's being reviewed
+	 */
+public static void insertReview(String artist, String album, String review, int author, int albumId) {
+	//inserts a new row into userReviews table
+	String sql = "INSERT INTO userReviews(artist, album, review, author, albumId) VALUES(?, ?, ?, ?, ?)";
+
+	//try with resources so connection closes properly
+	try (Connection connection = DriverManager.getConnection(dbName);
+
+			//adds the placeholders
+			var pstmt = connection.prepareStatement(sql)) {
+
+		//sets the parameters for each statement
+		pstmt.setString(1, artist);
+		pstmt.setString(2, album);
+		pstmt.setString(3, review);
+		pstmt.setInt(4, author);
+		pstmt.setInt(5, albumId);
+
+		pstmt.executeUpdate();
+
+		System.out.println("Review inserted successfully");
+
+	} catch (SQLException e) {
+		System.out.println("Error: " + e.getMessage());
+	}
+
+}
+
 	//Means of removing all data from database.
 	private static void dropTables(){
 		try(Connection connection = DriverManager.getConnection(dbName)){
@@ -153,8 +188,10 @@ public class UserDatabase{
 
 		//test for insertAlbum
 		UserDatabase.insertAlbum("testAlbum", "testArtist");
-	
-	
+
+		//test for insertReview
+		UserDatabase.insertReview("testArtist", "testAlbum", "This is a test review.", 1, 1);
+
 	}
 
 }

@@ -23,7 +23,7 @@ public class UserDatabase{
 	
 	//albumId TEXT FOREIGN KEY(albumId) REFERENCES userAlbums(faveId),
 	static String userReviews = "CREATE TABLE IF NOT EXISTS userReviews(reviewId INTEGER PRIMARY KEY, artist TEXT NOT NULL,album TEXT TEXT NOT NULL, review TEXT, author INTEGER FOREIGN KEY(author) REFERENCES userInfo(userId), albumId INTEGER FOREIGN KEY(albumId) REFERENCES storedAlbums(albumId))";
-	
+	//If database isn't present, creates database.
 	public static Connection getDbConnection(){
 		try(Connection con = DriverManager.getConnection(dbName)){
 			if(con != null){
@@ -38,6 +38,7 @@ public class UserDatabase{
 	}
 	
 //	private static void createTables(Connection connection){
+	//Creates tables in database.
 	private static void createTables(){
 		try(Connection connection = DriverManager.getConnection(dbName)){
 			System.out.println(connection);
@@ -57,13 +58,14 @@ public class UserDatabase{
 										  + "reviewId INTEGER PRIMARY KEY, "
 										  + "artist TEXT NOT NULL,"
 										  + "album TEXT TEXT NOT NULL,"
-										  + " review TEXT, "
+										  + "review TEXT, "
 										  + "author INTEGER REFERENCES userInfo(userId),"
-										  + " albumId INTEGER REFERENCES storedAlbums (albumId))");
+										  + "albumId INTEGER REFERENCES storedAlbums (albumId))");
 		}catch (SQLException e){
 			System.out.println("Could not create tables\nError: " + e.toString());
 		}
 	}
+	//Means of removing all data from database.
 	private static void dropTables(){
 		try(Connection connection = DriverManager.getConnection(dbName)){
 			System.out.println(connection);

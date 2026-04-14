@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 /**
 *
 * Author: Malik Kouyate
@@ -18,26 +19,10 @@ public class UserDatabase{
 	
 	static String userInfo= "CREATE TABLE IF NOT EXISTS userInfo( userId INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE, password TEXT NOT NULL )";
 	
-	static String storedAlbums =
-			"""
-			CREATE TABLE IF NOT EXISTS storedAlbums(
-			albumId INTEGER PRIMARY KEY,
-			album TEXT NOT NULL,
-			artist TEXT NOT NULL
-			);
-			""";
+	static String storedAlbums = "CREATE TABLE IF NOT EXISTS storedAlbums(albumId INTEGER PRIMARY KEY, album TEXT NOT NULL, artist TEXT NOT NULL)";
+	
 	//albumId TEXT FOREIGN KEY(albumId) REFERENCES userAlbums(faveId),
-	static String userReviews =
-			"""
-			CREATE TABLE IF NOT EXISTS userReviews(
-			reviewId INTEGER PRIMARY KEY,
-			artist TEXT NOT NULL,
-			album TEXT TEXT NOT NULL,
-			review TEXT,
-			author INTEGER FOREIGN KEY(author) REFERENCES userInfo(userId),
-			albumId INTEGER FOREIGN KEY(albumId) REFERENCES storedAlbums(albumId)
-			)
-			""";
+	static String userReviews = "CREATE TABLE IF NOT EXISTS userReviews(reviewId INTEGER PRIMARY KEY, artist TEXT NOT NULL,album TEXT TEXT NOT NULL, review TEXT, author INTEGER FOREIGN KEY(author) REFERENCES userInfo(userId), albumId INTEGER FOREIGN KEY(albumId) REFERENCES storedAlbums(albumId))";
 	
 	public static Connection getDbConnection(){
 		try(Connection con = DriverManager.getConnection(dbName)){
@@ -55,21 +40,47 @@ public class UserDatabase{
 //	private static void createTables(Connection connection){
 	private static void createTables(){
 		try(Connection connection = DriverManager.getConnection(dbName)){
+			System.out.println(connection);
 			
 			Statement createTable  = connection.createStatement();
-			createTable.executeUpdate("drop table if exists userInfo");
-			int i = createTable.executeUpdate("create table userInfo (userId integer PRIMARY KEY, name TEXT NOT NULL , password TEXT NOT NULL)");
-			System.out.println(i);
+			int j = createTable.executeUpdate("create table if not exists userInfo ("
+												  + "userId INTEGER PRIMARY KEY, "
+												  + "name TEXT NOT NULL ,"
+												  + " password TEXT NOT NULL)");
 			
+			createTable.executeUpdate("CREATE TABLE if not exists storedAlbums("
+										  + "albumId INTEGER PRIMARY KEY, "
+										  + "album TEXT NOT NULL, "
+										  + "artist TEXT NOT NULL)");
 			
-			
+			createTable.executeUpdate("CREATE TABLE IF NOT EXISTS userReviews("
+										  + "reviewId INTEGER PRIMARY KEY, "
+										  + "artist TEXT NOT NULL,"
+										  + "album TEXT TEXT NOT NULL,"
+										  + " review TEXT, "
+										  + "author INTEGER REFERENCES userInfo(userId),"
+										  + " albumId INTEGER REFERENCES storedAlbums (albumId))");
 		}catch (SQLException e){
 			System.out.println("Could not create tables\nError: " + e.toString());
 		}
 	}
+	private static void dropTables(){
+		try(Connection connection = DriverManager.getConnection(dbName)){
+			System.out.println(connection);
+			
+			Statement createTable  = connection.createStatement();
+			createTable.executeUpdate("drop table if exists userInfo");
+			createTable.executeUpdate("drop table if exists storedAlbums");
+			createTable.executeUpdate("drop table if exists userReviews");
+		}catch (SQLException e){
+			System.out.println("Could not drop tables\nError: " + e.toString());
+		}
+		
+	}
 	
 	public static void main() {
 		UserDatabase.getDbConnection();
+		UserDatabase.dropTables();
 		UserDatabase.createTables();
 	
 	

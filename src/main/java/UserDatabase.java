@@ -1,6 +1,8 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
 *
@@ -12,57 +14,63 @@ import java.sql.SQLException;
 
 public class UserDatabase{
 	
-	private String dbName = "jdbc:sqlite:userDB";
-	private Connection dbConnection;
+	private static String dbName = "jdbc:sqlite:userDb.db";
 	
-	String userTable = "CREATE TABLE IF NOT EXISTS userInfo ("
-						   + "userId INTEGER PRIMARY KEY,"
-						   + "name TEXT NOT NULL UNIQUE,"
-						   + "password TEXT NOT NULL,"
-						   + ");";
+	static String userInfo= "CREATE TABLE IF NOT EXISTS userInfo( userId INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE, password TEXT NOT NULL )";
 	
-	String userReviews = """
-			CREATE TABLE IF NOT EXISTS userReviews (
-			reviewId INTEGER PRIMARY KEY,
-			review TEXT NOT NULL,
-			album TEXT NOT NULL,
-			author INTEGER FOREIGN KEY(author) REFERENCES userInfo(userId)
-			ON DELETE CASCADE
-			);
-			""";
-	//albumId TEXT FOREIGN KEY(albumId) REFERENCES userAlbums(faveId),
-	String userFavorites = """
-			CREATE TABLE IF NOT EXISTS userAlbums(
-			faveId INTEGER PRIMARY KEY,
-			albumId TEXT NOT NULL,
-			artistId TEXT NOT NULL,
+	static String storedAlbums =
+			"""
+			CREATE TABLE IF NOT EXISTS storedAlbums(
+			albumId INTEGER PRIMARY KEY,
 			album TEXT NOT NULL,
 			artist TEXT NOT NULL
 			);
 			""";
+	//albumId TEXT FOREIGN KEY(albumId) REFERENCES userAlbums(faveId),
+	static String userReviews =
+			"""
+			CREATE TABLE IF NOT EXISTS userReviews(
+			reviewId INTEGER PRIMARY KEY,
+			artist TEXT NOT NULL,
+			album TEXT TEXT NOT NULL,
+			review TEXT,
+			author INTEGER FOREIGN KEY(author) REFERENCES userInfo(userId),
+			albumId INTEGER FOREIGN KEY(albumId) REFERENCES storedAlbums(albumId)
+			)
+			""";
 	
-	UserDatabase(){
+	public static Connection getDbConnection(){
 		try(Connection con = DriverManager.getConnection(dbName)){
 			if(con != null){
 				var data = con.getMetaData();
 				System.out.println("Driver name: " + data.getDriverName());
+				return con;
 			}
-			this.dbConnection = con;
 		} catch (SQLException e) {
 			System.out.println("Error: " + e);
 		}
+		return null;
 	}
 	
-	private void createTables(){
-		System.out.println(this.dbConnection);
-	
+//	private static void createTables(Connection connection){
+	private static void createTables(){
+		try(Connection connection = DriverManager.getConnection(dbName)){
+			
+			Statement createTable  = connection.createStatement();
+			createTable.executeUpdate("drop table if exists userInfo");
+			int i = createTable.executeUpdate("create table userInfo (userId integer PRIMARY KEY, name TEXT NOT NULL , password TEXT NOT NULL)");
+			System.out.println(i);
+			
+			
+			
+		}catch (SQLException e){
+			System.out.println("Could not create tables\nError: " + e.toString());
+		}
 	}
 	
 	public static void main() {
-	
-		UserDatabase db = new  UserDatabase();
-		System.out.println(db);
-		db.createTables();
+		UserDatabase.getDbConnection();
+		UserDatabase.createTables();
 	
 	
 	}

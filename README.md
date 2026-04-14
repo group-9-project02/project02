@@ -1,4 +1,5 @@
 README.md
+
 Title: SoundCritic
 
 Description: SoundCritic is a JavaFX desktop application that allows music fans to search for albums and tracks using the Spotify Web API and write personal reviews for them. Users create an account and log in to access the app. Once authenticated, they can search Spotify’s catalog, browse album tracklists, and save star ratings along with written reviews to a local SQLite database. All reviews are stored and tied to the logged-in user, making it a personal music journal backed by Spotify’s data. 

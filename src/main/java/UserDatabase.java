@@ -1,8 +1,9 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
+//import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+//import se.michaelthelin.spotify.model_objects.specification.User;
 
 
 /**
@@ -22,7 +23,7 @@ public class UserDatabase{
 	static String storedAlbums = "CREATE TABLE IF NOT EXISTS storedAlbums(albumId INTEGER PRIMARY KEY, album TEXT NOT NULL, artist TEXT NOT NULL)";
 	
 	//albumId TEXT FOREIGN KEY(albumId) REFERENCES userAlbums(faveId),
-	static String userReviews = "CREATE TABLE IF NOT EXISTS userReviews(reviewId INTEGER PRIMARY KEY, artist TEXT NOT NULL,album TEXT TEXT NOT NULL, review TEXT, author INTEGER FOREIGN KEY(author) REFERENCES userInfo(userId), albumId INTEGER FOREIGN KEY(albumId) REFERENCES storedAlbums(albumId))";
+	static String userReviews = "CREATE TABLE IF NOT EXISTS userReviews(reviewId INTEGER PRIMARY KEY, artist TEXT NOT NULL,album TEXT NOT NULL, review TEXT, author INTEGER FOREIGN KEY(author) REFERENCES userInfo(userId), albumId INTEGER FOREIGN KEY(albumId) REFERENCES storedAlbums(albumId))";
 	//If database isn't present, creates database.
 	public static Connection getDbConnection(){
 		try(Connection con = DriverManager.getConnection(dbName)){
@@ -57,7 +58,7 @@ public class UserDatabase{
 			createTable.executeUpdate("CREATE TABLE IF NOT EXISTS userReviews("
 										  + "reviewId INTEGER PRIMARY KEY, "
 										  + "artist TEXT NOT NULL,"
-										  + "album TEXT TEXT NOT NULL,"
+										  + "album TEXT NOT NULL,"
 										  + "review TEXT, "
 										  + "author INTEGER REFERENCES userInfo(userId),"
 										  + "albumId INTEGER REFERENCES storedAlbums (albumId))");
@@ -65,6 +66,39 @@ public class UserDatabase{
 			System.out.println("Could not create tables\nError: " + e.toString());
 		}
 	}
+
+	/**
+	 * Inserts a new user into the userInfo table
+	 * @param name the username
+	 * @param password the user's password
+	 */
+	public static void insertUser(String name, String password){
+
+		//SQL command to add a new row into userInfo table. ? = placeholders for values to be inserted.
+		String sql = "INSERT INTO userInfo(name, password) VALUES(?, ?)";
+
+		//Try-with-resources to ensure connection is closed after performed operation.
+		try (Connection connection = DriverManager.getConnection(dbName);
+
+				//prepares the SQL statement
+				var pstmt = connection.prepareStatement(sql)) {
+
+			//sets the first ? to the name parameter
+			pstmt.setString(1, name);
+
+			//sets the second ? to the password parameter
+			pstmt.setString(2, password);
+
+			//executes the insert statement
+			pstmt.executeUpdate();
+
+			System.out.println("User inserted successfully");
+
+		} catch (SQLException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+	}
+
 	//Means of removing all data from database.
 	private static void dropTables(){
 		try(Connection connection = DriverManager.getConnection(dbName)){
@@ -80,10 +114,13 @@ public class UserDatabase{
 		
 	}
 	
-	public static void main() {
+	public static void main(String[] args) {
 		UserDatabase.getDbConnection();
 		UserDatabase.dropTables();
 		UserDatabase.createTables();
+
+		//test for insertUser
+		UserDatabase.insertUser("testUser", "testPassword");
 	
 	
 	}

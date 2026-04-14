@@ -98,6 +98,35 @@ public class UserDatabase{
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
+	/**
+	 * Inserts a new album into the storedAlbums table
+	 * @param album the album name
+	 * @param artist the artist name
+	 */
+	public static void insertAlbum(String album, String artist) {
+
+		//SQL command to insert into storedAlbums
+		String sql = "INSERT INTO storedAlbums(album, artist) VALUES(?, ?)";
+
+		//Try-with-resources to ensure connection is closed after performed operation.
+		try (Connection connection = DriverManager.getConnection(dbName);
+				var pstmt = connection.prepareStatement(sql)) {
+
+			//sets album name
+			pstmt.setString(1, album);
+
+			//sets the artist name
+			pstmt.setString(2, artist);
+
+			//executes the insert statement
+			pstmt.executeUpdate();
+
+			System.out.println("Album inserted successfully");
+
+		} catch (SQLException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+	}
 
 	//Means of removing all data from database.
 	private static void dropTables(){
@@ -121,6 +150,9 @@ public class UserDatabase{
 
 		//test for insertUser
 		UserDatabase.insertUser("testUser", "testPassword");
+
+		//test for insertAlbum
+		UserDatabase.insertAlbum("testAlbum", "testArtist");
 	
 	
 	}

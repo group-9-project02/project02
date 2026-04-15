@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
-    <file url="file://$PROJECT_DIR$/src/main/java/UserDatabase.java" value="5d6a8e0f-59d8-41b4-b9da-174fcf6c8298" />
+    <file url="file://$PROJECT_DIR$/userDb.db" value="5d6a8e0f-59d8-41b4-b9da-174fcf6c8298" />
   </component>
 </project>

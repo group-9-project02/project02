@@ -17,7 +17,7 @@ import java.sql.PreparedStatement;
 *
 **/
 
-public class UserDatabase{
+class UserDatabase{
 	
 	private String dbName = "jdbc:sqlite:userDb.db";
 	
@@ -39,9 +39,8 @@ public class UserDatabase{
 			System.out.println("Error: " + e);
 		}
 	}
-//	private static void createTables(Connection connection){
 	//Creates tables in database.
-	private void createTables(){
+	public void createTables(){
 		try(Connection connection = DriverManager.getConnection(dbName)){
 			
 			Statement createTable  = connection.createStatement();
@@ -72,7 +71,7 @@ public class UserDatabase{
 	 * @param name the username
 	 * @param password the user's password
 	 */
-	public static void insertUser(String name, String password){
+	public void insertUser(String name, String password){
 
 		//SQL command to add a new row into userInfo table. ? = placeholders for values to be inserted.
 		String sql = "INSERT INTO userInfo(name, password) VALUES(?, ?)";
@@ -103,7 +102,7 @@ public class UserDatabase{
 	 * @param album the album name
 	 * @param artist the artist name
 	 */
-	public static void insertAlbum(String album, String artist) {
+	public void insertAlbum(String album, String artist) {
 
 		//SQL command to insert into storedAlbums
 		String sql = "INSERT INTO storedAlbums(album, artist) VALUES(?, ?)";
@@ -136,7 +135,7 @@ public class UserDatabase{
 	 * @param author the userId of the user who wrote the review
 	 * @param albumId the albumId of the album that's being reviewed
 	 */
-public static void insertReview(String artist, String album, String review, int author, int albumId) {
+public void insertReview(String artist, String album, String review, int author, int albumId) {
 	//inserts a new row into userReviews table
 	String sql = "INSERT INTO userReviews(artist, album, review, author, albumId) VALUES(?, ?, ?, ?, ?)";
 
@@ -163,8 +162,27 @@ public static void insertReview(String artist, String album, String review, int 
 
 }
 
+public void updateReview(String update, int reviewId){
+	String sql = "UPDATE userReviews SET review = ? WHERE reviewId = ?" ;
+	
+	try(Connection connection = DriverManager.getConnection(dbName)){
+		
+		PreparedStatement query = connection.prepareStatement(sql);
+		query.setString(1, update);
+		query.setInt(2, reviewId);
+		query.executeUpdate();
+	
+	} catch (SQLException e) {
+		
+		System.out.println("Error: "+e.toString());
+		
+	}
+	
+	
+}
+
 	//Means of removing all data from database.
-	private void dropTables(){
+	public void dropTables(){
 		try(Connection connection = DriverManager.getConnection(dbName)){
 			System.out.println(connection);
 			Statement createTable = connection.createStatement();
@@ -179,37 +197,31 @@ public static void insertReview(String artist, String album, String review, int 
 	
 		
 		
-		private void registerUser(String user, String password) {
+	public void registerUser(String user, String password) {
 			String check = "SELECT name "
 						   +"FROM userInfo "
 						   +"WHERE name = ?";
-			String add = "INSERT INTO userInfo(name, password) VALUES(? , ?)";
+//			String add = "INSERT INTO userInfo(name, password) VALUES(? , ?)";
 			
-			
-			try {
+			try (Connection connection = DriverManager.getConnection(dbName)){
 				PreparedStatement query = connection.prepareStatement(check);
-				query.setString(1, user);
 				ResultSet res = query.executeQuery();
 				System.out.println("query");
-        
 				if(res.getObject(1) == null){
+					res.close();
 					System.out.println("prep");
-					PreparedStatement register = connection.prepareStatement(add);
-					register.setString(1, user);
-					register.setString(2, password);
-					int added = register.executeUpdate();
-					System.out.println(added);
+					insertUser(user, password);
 				}
 				
 			}catch (SQLException e ){
 				System.out.println(("Couldnt add user: "+ e.toString()));
-			}
+				}
 			}
 
 	//function to read the database for a display all usernames and their associated password
-	private void readDatabase(){
+	public void readDatabase(){
 
-		try{
+		try(Connection connection = DriverManager.getConnection(dbName)){
 			Statement query = connection.createStatement();
 			ResultSet res = query.executeQuery("SELECT * FROM userInfo");
 			while(res.next()){
@@ -227,40 +239,39 @@ public static void insertReview(String artist, String album, String review, int 
 
 
 		
-	
-	public static void main(String[] args) {
-		
-		UserDatabase db = new UserDatabase();
-    
-    db.dropTables();
-    db.createTables();
-    
-    //test for insertUser
-    insertUser("testUser", "testPassword");
-    
-    //test for insertAlbum
-    insertAlbum("testAlbum", "testArtist");
-    
-    //test for registeruser
-    insertReview("testArtist", "testAlbum", "This is a test review", 1, 1);
-		
-		String user = "user";
-		String user1 = "user1";
-		String pass = "pass1";
-		db.createTables();
-		db.registerUser(user, pass);
-		db.registerUser(user1,pass);
-		db.registerUser("bill","12345");
-		db.registerUser("bill","12345");
-		db.registerUser("jacob","pizza");
 
-		db.readDatabase();
+//	public void main(String[] args) {
+//
+//	UserDatabase db = new UserDatabase();
+//
+//    db.dropTables();
+//    db.createTables();
+//
+//    //test for insertUser
+//    db.insertUser("testUser", "testPassword");
+//
+//    //test for insertAlbum
+//    db.insertAlbum("testAlbum", "testArtist");
+//
+//    //test for registeruser
+//    db.insertReview("testArtist", "testAlbum", "This is a test review", 1, 1);
+//
+//		String user = "user";
+//		String user1 = "user1";
+//		String pass = "pass1";
+//		db.createTables();
+//		db.registerUser(user, pass);
+//		db.registerUser(user1,pass);
+//		db.registerUser("bill","12345");
+//		db.registerUser("bill","12345");
+//		db.registerUser("jacob","pizza");
+//
+//		db.readDatabase();
+//
+//		//db.dropTables();
+//
+//
+//    }
 
-		//db.dropTables();
-
-	
-    }	
-
-	}
 
 

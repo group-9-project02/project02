@@ -54,7 +54,6 @@ public class SpotRequests {
 		String albumID = album.getId();
 		String albumInfo = String.format("%s \n %s\n %s\n", albumName, albumArtist, albumID);
 		return albumInfo;
-		
 	}
 	
 	private String trackSearch(SearchResult result) {

@@ -72,7 +72,7 @@ public static class UserDatabase{
 	private void dropTables(){
 		try{
 			System.out.println(connection);
-			Statement createTable  = connection.createStatement();
+			Statement createTable = connection.createStatement();
 			createTable.executeUpdate("drop table if exists userInfo");
 			createTable.executeUpdate("drop table if exists storedAlbums");
 			createTable.executeUpdate("drop table if exists userReviews");
@@ -110,7 +110,27 @@ public static class UserDatabase{
 				System.out.println(("Couldnt add user: "+ e.toString()));
 			}
 			}
+
+	//function to read the database for a display all usernames and their associated password
+	private void readDatabase(){
+
+		try{
+			Statement query = connection.createStatement();
+			ResultSet res = query.executeQuery("SELECT * FROM userInfo");
+			while(res.next()){
+				System.out.println("username: " + res.getString("name") + "\tpassword: " + res.getString("password") + "\tuserID: " + res.getString("userID"));
+			}
+
+		}catch (SQLException e){
+			System.out.println(("Couldn't find any users: "+ e.toString()));
 		}
+
+	}
+
+
+}
+
+
 		
 	
 	public static void main() {
@@ -119,11 +139,18 @@ public static class UserDatabase{
 		
 		String user = "user";
 		String user1 = "user1";
-		String pass = "pass";
+		String pass = "pass1";
+		db.createTables();
 		db.registerUser(user, pass);
 		db.registerUser(user1,pass);
-		
-		
+		db.registerUser("bill","12345");
+		db.registerUser("bill","12345");
+		db.registerUser("jacob","pizza");
+
+		db.readDatabase();
+
+		//db.dropTables();
+
 	
 	
 	}

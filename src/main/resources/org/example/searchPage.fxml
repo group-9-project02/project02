@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.SearchPageController">
+  <items>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="150.0" minWidth="100.0" prefWidth="300.0" text="search">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="369.0" prefWidth="598.0">
+         <children>
+            <TextField fx:id="searchText" layoutX="125.0" layoutY="8.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="275.0" promptText="Album search" />
+            <Button fx:id="searchButton" onMouseClicked="#handleSearch" layoutX="400.0" layoutY="8.0" mnemonicParsing="false" text="Search" />
+            <ToggleButton fx:id="searchToggle" layoutX="475.0" layoutY="8.0" mnemonicParsing="false" prefWidth="75.0" text="ToggleButton" />
+            <VBox layoutY="40.0" prefHeight="306.0" prefWidth="598.0">
+               <children>
+                  <ListView fx:id="albumList"/>
+               </children>
+            </VBox>
+         </children></AnchorPane>
+  </items>
+</SplitPane>

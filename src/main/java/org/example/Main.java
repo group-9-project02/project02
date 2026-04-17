@@ -6,18 +6,35 @@ package org.example;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 //Import JavaFX classes needed for the UI
+import java.io.IOException;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
 
 //Main entry point, this sets up the initial window and basic layout/shell
 public class Main extends Application {
 
 	//This method is called when the app starts
 	//It builds the UI
-	@Override
+
+		//creates a vertical layout container
+//		VBox root = new VBox(10);
+//
+//		//adds padding
+//		root.setStyle("-fx-padding: 20;");
+//
+//		//adding a placeholder
+//		root.getChildren().add(new Label("SoundCritic"));
+		// must append a "/" to start of file name.
+	//	FXMLLoader root = new FXMLLoader ( getClass().getResource("/searchPage.fxml" ));
+		
+
+		//sets the window title
+		 @Override
 	public void start(Stage stage) throws Exception {
 
 		//loads the login layout from the FXML file
@@ -29,13 +46,13 @@ public class Main extends Application {
 		//Set the window title
 		stage.setTitle("SoundCritic");
 
-		//Attach the scene to the new window
+		//attaches scene to stage window
 		stage.setScene(scene);
 
-		//Autosize the window to fit the content
+		//auto sizes the window to fit the content
 		stage.sizeToScene();
 
-		//Shows the window
+		//this shows the window
 		stage.show();
 
 	}

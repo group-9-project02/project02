@@ -16,7 +16,7 @@ javafx {
 }
 
 application {
-    mainClass = 'org.example.Main'
+    mainClass = 'Main'
 }
 
 repositories {

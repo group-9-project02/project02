@@ -7,10 +7,10 @@ package org.example;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 //Import JavaFX classes needed for the UI
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
+
 
 //Main entry point, this sets up the initial window and basic layout/shell
 public class Main extends Application {
@@ -18,31 +18,26 @@ public class Main extends Application {
 	//This method is called when the app starts
 	//It builds the UI
 	@Override
-	public void start(Stage stage) {
+	public void start(Stage stage) throws Exception {
 
-		//creates a vertical layout container
-		VBox root = new VBox(10);
+		//loads the login layout from the FXML file
+		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/login.fxml"));
 
-		//adds padding
-		root.setStyle("-fx-padding: 20;");
+		//creates a scene from the loaded FXML
+		Scene scene = new Scene(fxmlLoader.load());
 
-		//adding a placeholder
-		root.getChildren().add(new Label("SoundCritic"));
-
-		//creates scene with auto-size, can change to fixed if needed (add pixel values after root)
-		Scene scene = new Scene(root);
-
-		//sets the window title
+		//Set the window title
 		stage.setTitle("SoundCritic");
 
-		//attaches scene to stage window
+		//Attach the scene to the new window
 		stage.setScene(scene);
 
-		//auto sizes the window to fit the content
+		//Autosize the window to fit the content
 		stage.sizeToScene();
 
-		//this shows the window
+		//Shows the window
 		stage.show();
+
 	}
 	//launches the app and calls start() method
 	public static void main(String[] args) {

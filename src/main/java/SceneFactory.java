@@ -39,7 +39,6 @@ public class SceneFactory{
       scene.setScene(SceneFactory.createScene(SceneType.ACCOUNT, scene));
     });
 
-
     VBox layout = new VBox(10, title, s1Switch);
     
     return new Scene(layout, 600, 400);

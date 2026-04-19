@@ -1,3 +1,5 @@
+package org.example;
+
 /**
  * [Brief description of what this class does]
  *

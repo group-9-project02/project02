@@ -19,23 +19,27 @@ public class Main extends Application {
 	//It builds the UI
 	@Override
 	public void start(Stage stage) throws Exception {
+//
+//		//loads the login layout from the FXML file
+//		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/login.fxml"));
+//
+//		//creates a scene from the loaded FXML
+//		Scene scene = new Scene(fxmlLoader.load());
+//
+//		//Set the window title
+//		stage.setTitle("SoundCritic");
+//
+//		//Attach the scene to the new window
+//		stage.setScene(scene);
+//
+//		//Autosize the window to fit the content
+//		stage.sizeToScene();
+//
+//		//Shows the window
+//		stage.show();
 
-		//loads the login layout from the FXML file
-		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/login.fxml"));
-
-		//creates a scene from the loaded FXML
-		Scene scene = new Scene(fxmlLoader.load());
-
-		//Set the window title
 		stage.setTitle("SoundCritic");
-
-		//Attach the scene to the new window
-		stage.setScene(scene);
-
-		//Autosize the window to fit the content
-		stage.sizeToScene();
-
-		//Shows the window
+		stage.setScene(SceneFactory.createScene(SceneType.LOGIN, stage));
 		stage.show();
 
 	}

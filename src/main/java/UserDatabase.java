@@ -178,6 +178,23 @@ class UserDatabase{
 
 	}
 
+	public boolean deleteReview(int reviewId){
+		String sql = "DELETE FROM userReviews WHERE reviewId = ?";
+
+		try(Connection connection = DriverManager.getConnection(dbName)){
+
+			PreparedStatement query = connection.prepareStatement(sql);
+			query.setInt(1, reviewId);
+
+			int rowsAffected = query.executeUpdate();
+			return rowsAffected > 0;
+
+		} catch (SQLException e) {
+			System.out.println("Error: " + e.toString());
+			return false;
+		}
+	}
+
 	//Means of removing all data from database.
 	public void dropTables(){
 		try(Connection connection = DriverManager.getConnection(dbName)){
@@ -233,40 +250,39 @@ class UserDatabase{
 	}
 
 
+	public static void main(String[] args) {
+
+		UserDatabase db = new UserDatabase();
+
+		db.dropTables();
+		db.createTables();
+
+		//test for insertUser
+		db.insertUser("testUser", "testPassword");
+
+		//test for insertAlbum
+		db.insertAlbum("testAlbum", "testArtist");
+
+		//test for registeruser
+		db.insertReview("testArtist", "testAlbum", "This is a test review", 1, 1);
+
+		String user = "user";
+		String user1 = "user1";
+		String pass = "pass1";
+		db.createTables();
+		db.registerUser(user, pass);
+		db.registerUser(user1, pass);
+		db.registerUser("bill", "12345");
+		db.registerUser("bill", "12345");
+		db.registerUser("jacob", "pizza");
+
+		db.readDatabase();
+
+		db.dropTables();
+	}
+
 }
 
 
 
 
-//	public void main(String[] args) {
-//
-//	UserDatabase db = new UserDatabase();
-//
-//    db.dropTables();
-//    db.createTables();
-//
-//    //test for insertUser
-//    db.insertUser("testUser", "testPassword");
-//
-//    //test for insertAlbum
-//    db.insertAlbum("testAlbum", "testArtist");
-//
-//    //test for registeruser
-//    db.insertReview("testArtist", "testAlbum", "This is a test review", 1, 1);
-//
-//		String user = "user";
-//		String user1 = "user1";
-//		String pass = "pass1";
-//		db.createTables();
-//		db.registerUser(user, pass);
-//		db.registerUser(user1,pass);
-//		db.registerUser("bill","12345");
-//		db.registerUser("bill","12345");
-//		db.registerUser("jacob","pizza");
-//
-//		db.readDatabase();
-//
-//		//db.dropTables();
-//
-//
-//    }

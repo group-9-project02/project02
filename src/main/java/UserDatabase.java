@@ -1,26 +1,23 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 //import se.michaelthelin.spotify.model_objects.specification.User;
 
-
-
 /**
-*
-* Author: Malik Kouyate
-* Created: 4/13/2026
-* Purpose:
-*
-**/
+ *
+ * Author: Malik Kouyate
+ * Created: 4/13/2026
+ * Purpose:
+ *
+ **/
 
 class UserDatabase{
-	
+
 	private String dbName = "jdbc:sqlite:userDb.db";
-	
+
 	static String userInfo= "CREATE TABLE IF NOT EXISTS userInfo( userId INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE, password TEXT NOT NULL )";
 	static String storedAlbums = "CREATE TABLE IF NOT EXISTS storedAlbums(albumId INTEGER PRIMARY KEY, album TEXT NOT NULL, artist TEXT NOT NULL)";
 	//albumId TEXT FOREIGN KEY(albumId) REFERENCES userAlbums(faveId),
@@ -28,7 +25,7 @@ class UserDatabase{
 	//If database isn't present, creates database.
 	UserDatabase(){
 	}
-	
+
 	public void getDbConnection(){
 		try(Connection connection = DriverManager.getConnection(dbName)){
 			if(connection!= null){
@@ -42,25 +39,25 @@ class UserDatabase{
 	//Creates tables in database.
 	public void createTables(){
 		try(Connection connection = DriverManager.getConnection(dbName)){
-			
+
 			Statement createTable  = connection.createStatement();
 			int j = createTable.executeUpdate("create table if not exists userInfo ("
-												  + "userId INTEGER PRIMARY KEY, "
-												  + "name TEXT NOT NULL UNIQUE,"
-												  + "password TEXT NOT NULL)");
-			
+					+ "userId INTEGER PRIMARY KEY, "
+					+ "name TEXT NOT NULL UNIQUE,"
+					+ "password TEXT NOT NULL)");
+
 			createTable.executeUpdate("CREATE TABLE if not exists storedAlbums("
-										  + "albumId INTEGER PRIMARY KEY, "
-										  + "album TEXT NOT NULL, "
-										  + "artist TEXT NOT NULL)");
-			
+					+ "albumId INTEGER PRIMARY KEY, "
+					+ "album TEXT NOT NULL, "
+					+ "artist TEXT NOT NULL)");
+
 			createTable.executeUpdate("CREATE TABLE IF NOT EXISTS userReviews("
-										  + "reviewId INTEGER PRIMARY KEY, "
-										  + "artist TEXT NOT NULL,"
-										  + "album TEXT NOT NULL,"
-										  + "review TEXT, "
-										  + "author INTEGER REFERENCES userInfo(userId),"
-										  + "albumId INTEGER REFERENCES storedAlbums (albumId))");
+					+ "reviewId INTEGER PRIMARY KEY, "
+					+ "artist TEXT NOT NULL,"
+					+ "album TEXT NOT NULL,"
+					+ "review TEXT, "
+					+ "author INTEGER REFERENCES userInfo(userId),"
+					+ "albumId INTEGER REFERENCES storedAlbums (albumId))");
 		}catch (SQLException e){
 			System.out.println("Could not create tables\nError: " + e.toString());
 		}
@@ -135,51 +132,68 @@ class UserDatabase{
 	 * @param author the userId of the user who wrote the review
 	 * @param albumId the albumId of the album that's being reviewed
 	 */
-public void insertReview(String artist, String album, String review, int author, int albumId) {
-	//inserts a new row into userReviews table
-	String sql = "INSERT INTO userReviews(artist, album, review, author, albumId) VALUES(?, ?, ?, ?, ?)";
+	public void insertReview(String artist, String album, String review, int author, int albumId) {
+		//inserts a new row into userReviews table
+		String sql = "INSERT INTO userReviews(artist, album, review, author, albumId) VALUES(?, ?, ?, ?, ?)";
 
-	//try with resources so connection closes properly
-	try (Connection connection = DriverManager.getConnection(dbName);
+		//try with resources so connection closes properly
+		try (Connection connection = DriverManager.getConnection(dbName);
 
-			//adds the placeholders
-			var pstmt = connection.prepareStatement(sql)) {
+				//adds the placeholders
+				var pstmt = connection.prepareStatement(sql)) {
 
-		//sets the parameters for each statement
-		pstmt.setString(1, artist);
-		pstmt.setString(2, album);
-		pstmt.setString(3, review);
-		pstmt.setInt(4, author);
-		pstmt.setInt(5, albumId);
+			//sets the parameters for each statement
+			pstmt.setString(1, artist);
+			pstmt.setString(2, album);
+			pstmt.setString(3, review);
+			pstmt.setInt(4, author);
+			pstmt.setInt(5, albumId);
 
-		pstmt.executeUpdate();
+			pstmt.executeUpdate();
 
-		System.out.println("Review inserted successfully");
+			System.out.println("Review inserted successfully");
 
-	} catch (SQLException e) {
-		System.out.println("Error: " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+
 	}
 
-}
+	public void updateReview(String update, int reviewId){
+		String sql = "UPDATE userReviews SET review = ? WHERE reviewId = ?" ;
 
-public void updateReview(String update, int reviewId){
-	String sql = "UPDATE userReviews SET review = ? WHERE reviewId = ?" ;
-	
-	try(Connection connection = DriverManager.getConnection(dbName)){
-		
-		PreparedStatement query = connection.prepareStatement(sql);
-		query.setString(1, update);
-		query.setInt(2, reviewId);
-		query.executeUpdate();
-	
-	} catch (SQLException e) {
-		
-		System.out.println("Error: "+e.toString());
-		
+		try(Connection connection = DriverManager.getConnection(dbName)){
+
+			PreparedStatement query = connection.prepareStatement(sql);
+			query.setString(1, update);
+			query.setInt(2, reviewId);
+			query.executeUpdate();
+
+		} catch (SQLException e) {
+
+			System.out.println("Error: "+e.toString());
+
+		}
+
+
 	}
-	
-	
-}
+
+	public boolean deleteReview(int reviewId){
+		String sql = "DELETE FROM userReviews WHERE reviewId = ?";
+
+		try(Connection connection = DriverManager.getConnection(dbName)){
+
+			PreparedStatement query = connection.prepareStatement(sql);
+			query.setInt(1, reviewId);
+
+			int rowsAffected = query.executeUpdate();
+			return rowsAffected > 0;
+
+		} catch (SQLException e) {
+			System.out.println("Error: " + e.toString());
+			return false;
+		}
+	}
 
 	//Means of removing all data from database.
 	public void dropTables(){
@@ -192,31 +206,32 @@ public void updateReview(String update, int reviewId){
 		}catch (SQLException e){
 			System.out.println("Could not drop tables\nError: " + e.toString());
 		}
-		
+
 	}
-	
-		
-		
+
+
+
 	public void registerUser(String user, String password) {
-			String check = "SELECT name "
-						   +"FROM userInfo "
-						   +"WHERE name = ?";
+		String check = "SELECT name "
+				+"FROM userInfo "
+				+"WHERE name = ?";
 //			String add = "INSERT INTO userInfo(name, password) VALUES(? , ?)";
-			
-			try (Connection connection = DriverManager.getConnection(dbName)){
-				PreparedStatement query = connection.prepareStatement(check);
-				ResultSet res = query.executeQuery();
-				System.out.println("query");
-				if(res.getObject(1) == null){
-					res.close();
-					System.out.println("prep");
-					insertUser(user, password);
-				}
-				
-			}catch (SQLException e ){
-				System.out.println(("Couldnt add user: "+ e.toString()));
-				}
+
+		try (Connection connection = DriverManager.getConnection(dbName)){
+			PreparedStatement query = connection.prepareStatement(check);
+			ResultSet res = query.executeQuery();
+			System.out.println("query");
+
+			if(res.getObject(1) == null){
+				res.close();
+				System.out.println("prep");
+				insertUser(user, password);
 			}
+
+		}catch (SQLException e ){
+			System.out.println(("Couldnt add user: "+ e.toString()));
+		}
+	}
 
 	//function to read the database for a display all usernames and their associated password
 	public void readDatabase(){
@@ -235,43 +250,39 @@ public void updateReview(String update, int reviewId){
 	}
 
 
+	public static void main(String[] args) {
+
+		UserDatabase db = new UserDatabase();
+
+		db.dropTables();
+		db.createTables();
+
+		//test for insertUser
+		db.insertUser("testUser", "testPassword");
+
+		//test for insertAlbum
+		db.insertAlbum("testAlbum", "testArtist");
+
+		//test for registeruser
+		db.insertReview("testArtist", "testAlbum", "This is a test review", 1, 1);
+
+		String user = "user";
+		String user1 = "user1";
+		String pass = "pass1";
+		db.createTables();
+		db.registerUser(user, pass);
+		db.registerUser(user1, pass);
+		db.registerUser("bill", "12345");
+		db.registerUser("bill", "12345");
+		db.registerUser("jacob", "pizza");
+
+		db.readDatabase();
+
+		db.dropTables();
+	}
+
 }
 
-
-		
-
-//	public void main(String[] args) {
-//
-//	UserDatabase db = new UserDatabase();
-//
-//    db.dropTables();
-//    db.createTables();
-//
-//    //test for insertUser
-//    db.insertUser("testUser", "testPassword");
-//
-//    //test for insertAlbum
-//    db.insertAlbum("testAlbum", "testArtist");
-//
-//    //test for registeruser
-//    db.insertReview("testArtist", "testAlbum", "This is a test review", 1, 1);
-//
-//		String user = "user";
-//		String user1 = "user1";
-//		String pass = "pass1";
-//		db.createTables();
-//		db.registerUser(user, pass);
-//		db.registerUser(user1,pass);
-//		db.registerUser("bill","12345");
-//		db.registerUser("bill","12345");
-//		db.registerUser("jacob","pizza");
-//
-//		db.readDatabase();
-//
-//		//db.dropTables();
-//
-//
-//    }
 
 
 

@@ -1,4 +1,5 @@
 .env
+userDb.db
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar

@@ -21,11 +21,11 @@ public class SpotRequests {
 	private SearchResult response;
 	
 	
-	SpotRequests(SpotClient c) {
-		client = c.client;
-		System.out.println("client: " + client);
-		System.out.println(client.getAccessToken());
-	}
+//	SpotRequests(SpotClient c) {
+//		client = c.client;
+//		System.out.println("client: " + client);
+//		System.out.println(client.getAccessToken());
+//	}
 	
 	
 	public String search(String find, String type) {
@@ -54,7 +54,6 @@ public class SpotRequests {
 		String albumID = album.getId();
 		String albumInfo = String.format("%s \n %s\n %s\n", albumName, albumArtist, albumID);
 		return albumInfo;
-		
 	}
 	
 	private String trackSearch(SearchResult result) {

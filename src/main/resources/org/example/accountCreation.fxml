@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+
+<VBox alignment="CENTER" spacing="10"
+  xmlns="http://javafx.com/javafx/22"
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="org.example.AccountCreationController">
+
+  <padding>
+    <Insets top="20" right="20" bottom="20" left="20"/>
+  </padding>
+
+  <Label text="SoundCritic"/>
+
+  <Label text="Username"/>
+  <TextField fx:id="usernameField" promptText="Enter your username"/>
+
+  <Label text="Password"/>
+  <PasswordField fx:id="passwordField" promptText="Enter your password"/>
+
+  <Label text="Re-enter Password"/>
+  <PasswordField fx:id="confirmPasswordField" promptText="Re-enter your password"/>
+
+  <Button text="Create Account" onAction="#handleCreateAccount"/>
+
+
+</VBox>

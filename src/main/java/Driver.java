@@ -18,8 +18,8 @@ public class Driver{
 		//test for insertUser
 		db.insertUser("testUser", "testPassword");
 		
-		//test for insertAlbum
-		db.insertAlbum("testAlbum", "testArtist");
+		//test for insertAlbu
+		db.insertAlbum("testAlbum", "testArtist", "testId");
 		
 		//test for registeruser
 		db.insertReview("testArtist", "testAlbum", "This is a test review", 1, 1);

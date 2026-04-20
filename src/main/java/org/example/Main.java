@@ -41,22 +41,28 @@ public class Main extends Application {
 	//sets the window title
 	@Override
 	public void start(Stage stage) throws Exception {
-		
-		//loads the login layout from the FXML file
-//		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
-		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("searchPage.fxml"));
-		//creates a scene from the loaded FXML
-		Scene scene = new Scene(fxmlLoader.load());
-		//Set the window title
+
+//		//loads the login layout from the FXML file
+//		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/login.fxml"));
+//
+//		//creates a scene from the loaded FXML
+//		Scene scene = new Scene(fxmlLoader.load());
+//
+//		//Set the window title
+//		stage.setTitle("SoundCritic");
+//
+//		//Attach the scene to the new window
+//		stage.setScene(scene);
+//
+//		//Autosize the window to fit the content
+//		stage.sizeToScene();
+//
+//		//Shows the window
+//		stage.show();
+
 		stage.setTitle("SoundCritic");
-		
-		//attaches scene to stage window
-		stage.setScene(scene);
-		
-		//auto sizes the window to fit the content
-		stage.sizeToScene();
-		
-		//this shows the window
+		stage.setScene(SceneFactory.createScene(SceneType.LOGIN, stage));
+
 		stage.show();
 		
 	}

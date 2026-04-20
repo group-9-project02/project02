@@ -6,22 +6,27 @@ package org.example;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 //Import JavaFX classes needed for the UI
-import java.io.IOException;
+import java.io.File;
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
 import javafx.fxml.FXMLLoader;
+//import org.example.UserDatabase;
+//import java.sql.Connection;
+//import java.sql.DriverManager;
+//
+//import java.sql.SQLException;
+//import java.sql.Statement;
+//import java.sql.ResultSet;
+//import java.sql.PreparedStatement;
 
 //Main entry point, this sets up the initial window and basic layout/shell
 public class Main extends Application {
-
+	
 	//This method is called when the app starts
 	//It builds the UI
-
-		//creates a vertical layout container
+	
+	//creates a vertical layout container
 //		VBox root = new VBox(10);
 //
 //		//adds padding
@@ -29,42 +34,42 @@ public class Main extends Application {
 //
 //		//adding a placeholder
 //		root.getChildren().add(new Label("SoundCritic"));
-		// must append a "/" to start of file name.
+	// must append a "/" to start of file name.
 	//	FXMLLoader root = new FXMLLoader ( getClass().getResource("/searchPage.fxml" ));
-		
-
-		//sets the window title
-		 @Override
+	
+	
+	//sets the window title
+	@Override
 	public void start(Stage stage) throws Exception {
-
+		
 		//loads the login layout from the FXML file
-		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/login.fxml"));
-
+//		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("searchPage.fxml"));
 		//creates a scene from the loaded FXML
 		Scene scene = new Scene(fxmlLoader.load());
-
 		//Set the window title
 		stage.setTitle("SoundCritic");
-
+		
 		//attaches scene to stage window
 		stage.setScene(scene);
-
+		
 		//auto sizes the window to fit the content
 		stage.sizeToScene();
-
+		
 		//this shows the window
 		stage.show();
-
+		
 	}
+	
 	//launches the app and calls start() method
 	public static void main(String[] args) {
+		System.out.println(System.getProperty("user.dir"));
 		launch(args);
-
+		
 	}
-
-
-
-
+	
+	
+}
 
 //	static void main() {
 //		//TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
@@ -77,4 +82,3 @@ public class Main extends Application {
 //			IO.println("i = " + i);
 //		}
 //	}
-}

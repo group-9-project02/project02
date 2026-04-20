@@ -1,12 +1,10 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.ResultSet;
-import java.sql.PreparedStatement;
 //import se.michaelthelin.spotify.model_objects.specification.User;
-
 
 
 /**
@@ -17,9 +15,10 @@ import java.sql.PreparedStatement;
 *
 **/
 
-class UserDatabase{
+class UserDatabase {
 	
-	private String dbName = "jdbc:sqlite:userDb.db";
+//	private String dbName = "jdbc:sqlite:userDb.db";
+	private String dbName = "jdbc:sqlite:src/main/java/org/example/userDb.db";
 	
 	static String userInfo= "CREATE TABLE IF NOT EXISTS userInfo( userId INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE, password TEXT NOT NULL )";
 	static String storedAlbums = "CREATE TABLE IF NOT EXISTS storedAlbums(albumId INTEGER PRIMARY KEY, album TEXT NOT NULL, artist TEXT NOT NULL)";
@@ -27,6 +26,7 @@ class UserDatabase{
 	static String userReviews = "CREATE TABLE IF NOT EXISTS userReviews(reviewId INTEGER PRIMARY KEY, artist TEXT NOT NULL,album TEXT NOT NULL, review TEXT, author INTEGER FOREIGN KEY(author) REFERENCES userInfo(userId), albumId INTEGER FOREIGN KEY(albumId) REFERENCES storedAlbums(albumId))";
 	//If database isn't present, creates database.
 	UserDatabase(){
+		getDbConnection();
 	}
 	
 	public void getDbConnection(){
@@ -34,10 +34,12 @@ class UserDatabase{
 			if(connection!= null){
 				var data = connection.getMetaData();
 				System.out.println("Driver name: " + data.getDriverName());
+				System.out.println((dbName));
 			}
 		} catch (SQLException e) {
 			System.out.println("Error: " + e);
 		}
+		dropTables();
 	}
 	//Creates tables in database.
 	public void createTables(){
@@ -50,9 +52,11 @@ class UserDatabase{
 												  + "password TEXT NOT NULL)");
 			
 			createTable.executeUpdate("CREATE TABLE if not exists storedAlbums("
-										  + "albumId INTEGER PRIMARY KEY, "
-										  + "album TEXT NOT NULL, "
-										  + "artist TEXT NOT NULL)");
+										  + "albumKey INTEGER PRIMARY KEY, "
+										  + "album TEXT NOT NULL UNIQUE, "
+										  + "artist TEXT NOT NULL,"
+										  + "albumId TEXT NOT NULL)");
+				
 			
 			createTable.executeUpdate("CREATE TABLE IF NOT EXISTS userReviews("
 										  + "reviewId INTEGER PRIMARY KEY, "
@@ -60,7 +64,7 @@ class UserDatabase{
 										  + "album TEXT NOT NULL,"
 										  + "review TEXT, "
 										  + "author INTEGER REFERENCES userInfo(userId),"
-										  + "albumId INTEGER REFERENCES storedAlbums (albumId))");
+										  + "albumKey INTEGER REFERENCES storedAlbums (albumKey))");
 		}catch (SQLException e){
 			System.out.println("Could not create tables\nError: " + e.toString());
 		}
@@ -99,13 +103,15 @@ class UserDatabase{
 	}
 	/**
 	 * Inserts a new album into the storedAlbums table
-	 * @param album the album name
+	 *
+	 * @param album  the album name
 	 * @param artist the artist name
+	 * @param id
 	 */
-	public void insertAlbum(String album, String artist) {
+	public void insertAlbum(String album, String artist, String id) {
 
 		//SQL command to insert into storedAlbums
-		String sql = "INSERT INTO storedAlbums(album, artist) VALUES(?, ?)";
+		String sql = "INSERT INTO storedAlbums(album, artist, albumId) VALUES(?, ?, ?)";
 
 		//Try-with-resources to ensure connection is closed after performed operation.
 		try (Connection connection = DriverManager.getConnection(dbName);
@@ -116,6 +122,9 @@ class UserDatabase{
 
 			//sets the artist name
 			pstmt.setString(2, artist);
+			
+			//sets album id
+			pstmt.setString(3, id);
 
 			//executes the insert statement
 			pstmt.executeUpdate();
@@ -192,6 +201,7 @@ public void updateReview(String update, int reviewId){
 		}catch (SQLException e){
 			System.out.println("Could not drop tables\nError: " + e.toString());
 		}
+		createTables();
 		
 	}
 	

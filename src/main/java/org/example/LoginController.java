@@ -51,15 +51,15 @@ public class LoginController {
     // Load the new FXML file
 
     //default scene if load fails
-    Parent root = FXMLLoader.load(getClass().getResource("NewScene.fxml"));;
+    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));;
     switch (newScene){
-      case LOGIN -> root = FXMLLoader.load(getClass().getResource("login.fxml"));
-      case ACCOUNT_CREATION -> root = FXMLLoader.load(getClass().getResource("accountCreation.fxml"));
-      case HOME -> root = FXMLLoader.load(getClass().getResource("NewScene.fxml"));
-      case SEARCH -> root = FXMLLoader.load(getClass().getResource("searchPage.fxml"));
-      case ALBUM -> root = FXMLLoader.load(getClass().getResource("NewScene.fxml"));
-      case REVIEWS -> root = FXMLLoader.load(getClass().getResource("NewScene.fxml"));
-      case ACCOUNT -> root = FXMLLoader.load(getClass().getResource("NewScene.fxml"));
+      case LOGIN -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
+      case ACCOUNT_CREATION -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("accountCreation.fxml")));
+      case HOME -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+      case SEARCH -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("searchPage.fxml")));
+      case ALBUM -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+      case REVIEWS -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+      case ACCOUNT -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
     };
 
 

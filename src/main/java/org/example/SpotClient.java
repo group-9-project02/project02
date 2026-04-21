@@ -25,9 +25,9 @@ public class SpotClient {
 	static private final String CLIENT_ID = getClientId(); //= props.getProperty("CLIENT_ID")
 	static private final String CLIENT_SECRET = getClientSecret();// = props.getProperty("CLIENT_SECRET");
 	
-	final SpotifyApi client;
+	public final SpotifyApi client;
 	private final ClientCredentialsRequest clientCredentialsReq;
-	SpotClient(){
+	public SpotClient(){
 		client =  new SpotifyApi.Builder().setClientId(CLIENT_ID).setClientSecret(CLIENT_SECRET).build();
 		clientCredentialsReq =  client.clientCredentials().build();
 	}

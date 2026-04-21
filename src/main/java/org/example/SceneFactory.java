@@ -21,12 +21,12 @@ public class SceneFactory{
   public static Scene createScene(SceneType type, Stage scene) throws Exception {
     return switch (type){
       case LOGIN -> buildLoginScene(scene);
-      case ACCOUNT_CREATION -> null;
+      case ACCOUNT_CREATION -> buildAccountCreationScene(scene);
       case HOME -> null;
-      case SEARCH -> null;
+      case SEARCH -> buildSearchScene(scene);
       case ALBUM -> null;
       case REVIEWS -> null;
-      case ACCOUNT -> buildAccountScene(scene);
+      case ACCOUNT -> null;
     };
   }
 
@@ -45,17 +45,31 @@ public class SceneFactory{
     return loginScene;
   }
 
-  private static Scene buildAccountScene(Stage scene) {
-//    Label title = new Label("Account");
-//
-//    Button s1Switch = new Button("Switch Scene");
-//
-//    s1Switch.setOnAction(e -> {
-//      scene.setScene(SceneFactory.createScene(SceneType.LOGIN, scene));
-//    });
-//
-//    VBox layout = new VBox(10, title, s1Switch);
+  private static Scene buildAccountCreationScene(Stage scene) throws Exception {
+    //loads the login layout from the FXML file
+    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/accountCreation.fxml"));
 
-    return null;
+    //creates a scene from the loaded FXML
+    Scene accountCreationScene = new Scene(fxmlLoader.load());
+
+    //Autosize the window to fit the content
+    scene.sizeToScene();
+
+    return accountCreationScene;
   }
+
+  private static Scene buildSearchScene(Stage scene) throws Exception {
+    //loads the login layout from the FXML file
+    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/searchPage.fxml"));
+
+    //creates a scene from the loaded FXML
+    Scene searchScene = new Scene(fxmlLoader.load());
+
+    //Autosize the window to fit the content
+    scene.sizeToScene();
+
+    return searchScene;
+  }
+
+
 }

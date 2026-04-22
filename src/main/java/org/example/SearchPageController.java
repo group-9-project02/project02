@@ -65,6 +65,8 @@ class AlbumCell extends ListCell<Album>{
 	void storeAlbum(Album alb){
 		UserDatabase db = new UserDatabase();
 		db.insertAlbum(alb.name, alb.artist, alb.id);
+		//use this and add stage.getUserData()
+		setUserData(alb);
 		
 		
 	}
@@ -125,7 +127,9 @@ public class SearchPageController {
 		SpotRequests req = new SpotRequests();
 		String[] alb = req.search(s, "album").split("\\R");
 		System.out.println(alb.toString());
-		addToObservable(new Album(alb[0], alb[1], alb[2]));
+		if(alb[0] != null) {
+			addToObservable(new Album(alb[0], alb[1], alb[2]));
+		};
 		
 //		addToObservable(req.search(s, "album"));
 		

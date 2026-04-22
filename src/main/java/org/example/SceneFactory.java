@@ -1,5 +1,7 @@
 package org.example;
 
+import java.io.IOException;
+import java.lang.ModuleLayer.Controller;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -58,4 +60,27 @@ public class SceneFactory{
 
     return null;
   }
+  
+  private static Scene buildSearchPage(Stage scene) throws IOException {
+	  FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("org.example.searchPage.fxml"));
+	  
+	  SearchPageController controller = fxmlLoader.getController();
+	  fxmlLoader.setController(controller);
+	  Scene searchScene = new Scene(fxmlLoader.load());
+	  scene.sizeToScene();
+	  return searchScene;
+  }
+  
+  private static Scene buildReviewPage(Stage scene) throws IOException{
+	  FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("org.example.searchPage.fxml"));
+	  Album alb = (Album) scene.getUserData();
+	  WriteReviewController controller = new WriteReviewController();
+	  scene.setUserData(alb);
+	  scene.sizeToScene();
+	  fxmlLoader.setController(controller);
+	  Scene reviewScene = new Scene(fxmlLoader.load());
+	  return reviewScene;
+  }
+  
+  
 }

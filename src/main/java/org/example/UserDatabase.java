@@ -41,7 +41,8 @@ class UserDatabase {
 		} catch (SQLException e) {
 			System.out.println("Error: " + e);
 		}
-		dropTables();
+		createTables();
+//		dropTables();
 	}
 	//Creates tables in database.
 	public void createTables(){

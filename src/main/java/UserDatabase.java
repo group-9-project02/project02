@@ -17,8 +17,8 @@ import java.sql.Statement;
 
 class UserDatabase {
 	
-//	private String dbName = "jdbc:sqlite:userDb.db";
-	private String dbName = "jdbc:sqlite:src/main/java/org/example/userDb.db";
+	private String dbName = "jdbc:sqlite:userDb.db";
+//	private String dbName = "jdbc:sqlite:src/main/java/org/example/userDb.db";
 	
 	static String userInfo= "CREATE TABLE IF NOT EXISTS userInfo( userId INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE, password TEXT NOT NULL )";
 	static String storedAlbums = "CREATE TABLE IF NOT EXISTS storedAlbums(albumId INTEGER PRIMARY KEY, album TEXT NOT NULL, artist TEXT NOT NULL)";
@@ -39,7 +39,8 @@ class UserDatabase {
 		} catch (SQLException e) {
 			System.out.println("Error: " + e);
 		}
-		dropTables();
+		createTables();
+//		dropTables();
 	}
 	//Creates tables in database.
 	public void createTables(){

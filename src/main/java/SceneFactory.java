@@ -1,14 +1,7 @@
-package org.example;
-
 import java.io.IOException;
-import java.lang.ModuleLayer.Controller;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
 
 /**
  * This will act as the controller that will create and manage switching between scenes

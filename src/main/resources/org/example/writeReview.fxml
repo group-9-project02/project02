@@ -5,7 +5,7 @@
 <?import javafx.scene.text.*?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.WriteReviewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WriteReviewController">
    <children>
       <Button fx:id="submitReview" onMouseClicked="#handleSubmit" layoutX="143.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="314.0" text="Submit Review" />
       <TextField fx:id="userReview" layoutX="143.0" layoutY="141.0" prefHeight="166.0" prefWidth="314.0" />

@@ -7,6 +7,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
 <VBox alignment="CENTER" spacing="10"
   xmlns="http://javafx.com/javafx/22"
   xmlns:fx="http://javafx.com/fxml/1"
@@ -26,6 +29,12 @@
 
   <Button text="Login" onAction="#handleLogin"/>
 
-  <Label text="New User? Create an account Here."/>
+  <!-- make a string of text with clickable text-->
+  <!-- this is used to test the scene transition function will be removed/adjusted future versions if necessary-->
+  <TextFlow>
+    <Text text="New User? Create an account "/>
+    <Hyperlink text="Here." onAction="#transitionAccountCreation"/>
+  </TextFlow>
+
 
 </VBox>

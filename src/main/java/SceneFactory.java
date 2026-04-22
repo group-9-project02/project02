@@ -1,8 +1,12 @@
-import java.io.IOException;
+package org.example;
+
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
 
 /**
  * This will act as the controller that will create and manage switching between scenes
@@ -17,7 +21,7 @@ public class SceneFactory{
   public static Scene createScene(SceneType type, Stage scene) throws Exception {
     return switch (type){
       case LOGIN -> buildLoginScene(scene);
-      case ACCOUNT_CREATION -> null;
+      case ACCOUNT_CREATION -> buildAccountCreationScene(scene);
       case HOME -> null;
       case SEARCH -> buildSearchPage(scene);
       case WRITEREVIEW-> buildReviewPage(scene);
@@ -31,7 +35,7 @@ public class SceneFactory{
   //these are format examples for how we will construct our scenes
   private static Scene buildLoginScene(Stage scene) throws Exception {
     //loads the login layout from the FXML file
-    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/login.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/login.fxml"));
 
     //creates a scene from the loaded FXML
     Scene loginScene = new Scene(fxmlLoader.load());
@@ -42,18 +46,17 @@ public class SceneFactory{
     return loginScene;
   }
 
-  private static Scene buildAccountScene(Stage scene) {
-//    Label title = new Label("Account");
-//
-//    Button s1Switch = new Button("Switch Scene");
-//
-//    s1Switch.setOnAction(e -> {
-//      scene.setScene(SceneFactory.createScene(SceneType.LOGIN, scene));
-//    });
-//
-//    VBox layout = new VBox(10, title, s1Switch);
+  private static Scene buildAccountCreationScene(Stage scene) throws Exception {
+    //loads the login layout from the FXML file
+    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/accountCreation.fxml"));
 
-    return null;
+    //creates a scene from the loaded FXML
+    Scene accountCreationScene = new Scene(fxmlLoader.load());
+
+    //Autosize the window to fit the content
+    scene.sizeToScene();
+
+    return accountCreationScene;
   }
   
   private static Scene buildSearchPage(Stage scene) throws IOException {

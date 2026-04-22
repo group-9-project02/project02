@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 
 public class UserDatabaseTest {
 
+
   /**
    * Test for insertUser:
    * Verified that a user can be added to the database without errors
@@ -31,15 +32,34 @@ public class UserDatabaseTest {
     //creates the UserDatabase object so we can call the instance method since not static
     UserDatabase db = new UserDatabase();
 
+    //creates the test data to avoid duplicate usernames
     String username = "testUser" + System.currentTimeMillis();
+    String password = "testPassword";
 
     //calls insertUser method
-    db.insertUser(username, "password123");
+    db.insertUser(username, password);
 
-    System.out.println("Inserted user: " + username);
+    try (Connection connection = DriverManager.getConnection(
+        "jdbc:sqlite:src/main/java/org/example/userDb.db")) {
+
+      //the SQL query to find the user that was just added
+      String sql = "SELECT name, password FROM userInfo WHERE name = ?";
+      PreparedStatement pstmt = connection.prepareStatement(sql);
+      pstmt.setString(1, username);
+
+      //executes the query and stores the result in ResultSet
+      ResultSet rs = pstmt.executeQuery();
+
+      //compares the database values with expected values
+      assertTrue(rs.next(), "User not found in database");
+      assertEquals(username, rs.getString("name"));
+      assertEquals(password, rs.getString("password"));
+
+    } catch (Exception e) {
+      fail("Database query failed: " + e.getMessage());
+    }
+
   }
-
-
 
   /**
    * Test for insertAlbum:
@@ -72,11 +92,11 @@ public class UserDatabaseTest {
       //executes the query and stores the result in ResultSet
       ResultSet rs = pstmt.executeQuery();
 
-        //compares the database values with expected values
-        assertTrue(rs.next(), "Album not found in database");
-        assertEquals(albumName, rs.getString("album"));
-        assertEquals(artistName, rs.getString("artist"));
-        assertEquals(albumId, rs.getString("albumId"));
+      //compares the database values with expected values
+      assertTrue(rs.next(), "Album not found in database");
+      assertEquals(albumName, rs.getString("album"));
+      assertEquals(artistName, rs.getString("artist"));
+      assertEquals(albumId, rs.getString("albumId"));
 
       } catch (Exception e) {
         fail("Database query failed: " + e.getMessage());

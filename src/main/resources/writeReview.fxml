@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WriteReviewController">
+   <children>
+      <Button fx:id="submitReview" layoutX="143.0" layoutY="327.0" mnemonicParsing="false" onMouseClicked="#handleSubmit" prefHeight="25.0" prefWidth="314.0" text="Submit Review" />
+      <TextArea fx:id="userReview" layoutX="143.0" layoutY="137.0" prefHeight="190.0" prefWidth="314.0" wrapText="true" />
+      <TextField fx:id="userRating" layoutX="362.0" layoutY="97.0" prefHeight="25.0" prefWidth="95.0" promptText="Rating" />
+      <VBox fx:id="albumInfo" alignment="CENTER" layoutX="143.0" layoutY="51.0" prefHeight="71.0" prefWidth="207.0">
+         <children>
+            <Label fx:id="album" contentDisplay="CENTER" prefHeight="30.0" prefWidth="199.0" textOverrun="CLIP" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="artist" prefHeight="30.0" prefWidth="197.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -1,5 +1,3 @@
-package org.example;
-
 /**
  * [Brief description of what this class does]
  *
@@ -14,5 +12,6 @@ public enum SceneType{
   SEARCH,
   ALBUM,
   REVIEWS,
+  WRITEREVIEW,
   ACCOUNT
 }

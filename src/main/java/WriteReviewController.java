@@ -2,6 +2,7 @@ import java.util.HashMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.input.MouseEvent;
@@ -24,15 +25,15 @@ public class WriteReviewController {
 		String rating = userRating.getText();
 		UserDatabase db = new UserDatabase();
 		Integer userId = User.currUserId; //placeholder
-		if(reviewId == null) {
-			db.insertReview(alb.artist, alb.name, review, userId, albumKey);
+		if(User.currAlbum.getReview() == null) {
+			db.insertReview(User.currAlbum.artist, User.currAlbum.name, review, userId, db.getAlbumKey(User.currAlbum.id));
 		}else{
-			db.updateReview(review , reviewId);
+			db.updateReview(review , User.currAlbum.getReviewId());
 		};
 	}
 	
 	@FXML
-	TextField userReview;
+	TextArea userReview;
 	@FXML
 	TextField userRating;
 	
@@ -45,13 +46,6 @@ public class WriteReviewController {
 	@FXML
 	Label artist;
 	
-	Album alb;
-	
-	HashMap<Integer,String> review;
-	Integer albumKey;
-	Integer reviewId;
-	UserDatabase db = new UserDatabase();
-	
 	@FXML
 	private void getData(){
 	}
@@ -59,18 +53,22 @@ public class WriteReviewController {
 	@FXML
 	private void initialize(){
 		getData();
+		System.out.println(User.currAlbum.name);
+		System.out.println((User.currAlbum.artist));
+		System.out.println((User.currAlbum.albumKey));
+		System.out.println((User.currAlbum.id));
+		album.setText(User.currAlbum.name);
+		artist.setText(User.currAlbum.artist);
 		
-		album = new Label(User.currAlbum.name);
-		artist = new Label(User.currAlbum.artist);
-		albumKey= db.getAlbumKey(User.currAlbum.id);
-		if(albumKey != null) {
-			review = new HashMap<>(db.getReview(albumKey));
-			if (!review.keySet().isEmpty()) {
-				reviewId = (Integer) review.keySet().toArray()[0];
-				userReview.setText(review.get(reviewId));
-			}
-			
-		}
+//		albumKey = db.getAlbumKey(User.currAlbum.id);
+//		if(albumKey != null) {
+////			review = new HashMap<>(db.getReview(albumKey));
+//			if (!review.keySet().isEmpty()) {
+//				reviewId = (Integer) review.keySet().toArray()[0];
+//				userReview.setText(review.get(reviewId));
+//			}
+//
+//		}
 		
 	};
 	

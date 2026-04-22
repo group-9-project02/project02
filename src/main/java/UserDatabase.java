@@ -143,13 +143,14 @@ class UserDatabase {
 		String getAlbum = "SELECT albumKey "
 							  + "FROM storedAlbums "
 							  + "WHERE albumId=?";
+		Integer val = 0;
 		try(Connection connection = DriverManager.getConnection(dbName)){
 			PreparedStatement query  = connection.prepareStatement(getAlbum);
 			query.setString(1, albumSpotId.trim());
 			System.out.println(albumSpotId.trim());
 			ResultSet rs = query.executeQuery();
 			if(rs.next()){
-				int val = rs.getInt("albumKey");
+				val = rs.getInt("albumKey");
 				System.out.println((val));
 				if(rs.wasNull()){
 					System.out.println("null val");
@@ -157,7 +158,7 @@ class UserDatabase {
 				}
 			}
 			
-			return (Integer)rs.getInt("albumKey");
+			return val;
 		} catch (SQLException e) {
 			return null;
 		}
@@ -215,18 +216,35 @@ public void updateReview(String update, int reviewId){
 	
 	
 }
-	public Map<Integer, String> getReview(Integer albumInt){
-		String check = "SELECT albumKey "
+	public String getReview(Integer albumInt, Integer userId){
+		String check = "SELECT review "
 						   + "FROM userReviews "
-						   + "WHERE albumKey = ?";
+						   + "WHERE albumKey = ? "
+						   + "AND author = ?";
 			
 		try(Connection connection = DriverManager.getConnection(dbName)){
 			PreparedStatement query = connection.prepareStatement(check);
 			query.setInt(1, albumInt);
+			query.setInt(2, userId);
 			ResultSet rs = query.executeQuery();
-			Map<Integer, String> review = new HashMap<Integer, String>();
-			review.put(rs.getInt("reviewId"), rs.getString("review"));
-			return review;
+			return rs.getString(1);
+		} catch (SQLException e) {
+			return null;
+		}
+		
+	}
+	public Integer getReviewId(Integer albumInt, Integer userId){
+		String check = "SELECT reviewId "
+						   + "FROM userReviews "
+						   + "WHERE albumKey = ? "
+						   + "AND author = ?";
+		
+		try(Connection connection = DriverManager.getConnection(dbName)){
+			PreparedStatement query = connection.prepareStatement(check);
+			query.setInt(1, albumInt);
+			query.setInt(2, userId);
+			ResultSet rs = query.executeQuery();
+			return rs.getInt(1);
 		} catch (SQLException e) {
 			return null;
 		}
@@ -273,6 +291,7 @@ public void updateReview(String update, int reviewId){
 			};
 	
 	public void getCurrUser(){
+		//need to implement
 	
 	}
 	

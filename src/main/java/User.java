@@ -7,15 +7,14 @@
 **/
 
 class User {
-	static Integer currUserId;
+	static Integer currUserId = 1;
 	static Boolean loggedIn;
 	static Album currAlbum;
 	static String currUserName;
 	
 	static void setAlbum(Album alb){
-		currAlbum  = new Album(alb);
 	}
-	static void setUser(Integer id){
+	static void setUserId(Integer id){
 		currUserId= id;
 	}
 	static void setLoggedIn(Boolean in){
@@ -23,6 +22,5 @@ class User {
 	}
 	static void setUserName(String userName) {
 		currUserName = userName;
-		
 	}
 }

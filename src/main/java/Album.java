@@ -10,6 +10,9 @@ public class Album {
 	public String name = "name";
 	public String artist = "artist";
 	public String id ="id";
+	private String review;
+	private Integer reviewId;
+	public Integer albumKey;
 	
 	Album(String name , String artist, String id) {
 		this.name = name;
@@ -17,9 +20,30 @@ public class Album {
 		this.id = id;
 	 };
 	
-	Album(Album alb){
-		this.name = alb.name;
-		this.artist = alb.artist;
-		this.id = alb.id;
+	Album(String name, String artist, String id, Integer reviewId, String review, Integer albumKey){
+		this.name = name;
+		this.artist = artist;
+		this.id = id;
+		this.reviewId= reviewId;
+		this.review = review;
+	}
+	public void setReview(String s){
+		review = s;
+	}
+	public String getReview(){
+		return review;
+	}
+	public void setReviewId(Integer id){
+		reviewId = id;
+	}
+	public Integer getReviewId(){
+		return reviewId;
+	}
+	
+	public void setAlbumKey(Integer key){
+		albumKey = key;
+	}
+	public Integer getAlbumKey(){
+		return albumKey;
 	}
 }

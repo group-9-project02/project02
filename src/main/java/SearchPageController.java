@@ -1,6 +1,14 @@
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -38,6 +46,7 @@ class AlbumCell extends ListCell<Album>{
 				System.out.println(("out"));
 			try {
 				storeAlbum(alb);
+				switchScene(event,SceneType.WRITEREVIEW);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -47,16 +56,27 @@ class AlbumCell extends ListCell<Album>{
 	}
 	void storeAlbum(Album alb)  {
 		UserDatabase db = new UserDatabase();
+		Integer albumKey;
+		Integer reviewId;
+		String review;
+		Integer albKey;
 		try{
-			Integer albumKey = (Integer) db.getAlbumKey(alb.id);
+			albumKey = (Integer) db.getAlbumKey(alb.id);
 			System.out.println("albKey");
 			System.out.println((albumKey));
-			if (albumKey == null) {
+			albKey = albumKey;
+			if (albumKey == 0) {
 				db.insertAlbum(alb.name, alb.artist, alb.id.trim());
+				alb.setAlbumKey(db.getAlbumKey(alb.id));
 			}
-			User.currAlbum = new Album(alb);
-			SceneFactory.createScene(SceneType.WRITEREVIEW,(Stage) button.getScene().getWindow());
 			
+			alb.setReview(db.getReview(albumKey, User.currUserId));
+			alb.setReviewId(db.getReviewId(albumKey,User.currUserId));
+			review = alb.getReview();
+			reviewId = alb.getReviewId();
+			
+			User.currAlbum = new Album(alb.name, alb.artist, alb.id, reviewId, review, albKey);
+		
 		}catch(Exception e){
 			System.out.println(("error: "+ e.toString()));
 			
@@ -79,6 +99,31 @@ class AlbumCell extends ListCell<Album>{
 			setGraphic(inner);
 		}
 		
+	}
+	@FXML
+	public void switchScene(ActionEvent event, SceneType newScene) throws IOException {
+		// Load the new FXML file
+		
+		//default scene if load fails
+		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("writeReview.fxml")));;
+		switch (newScene){
+			case LOGIN -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
+			case ACCOUNT_CREATION -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("accountCreation.fxml")));
+			case HOME -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+			case SEARCH -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("searchPage.fxml")));
+			case ALBUM -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("writeReview.fxml")));
+			case REVIEWS -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+			case ACCOUNT -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+		};
+		
+		
+		// Get the current stage from the event source
+		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		
+		// Create and set the new scene
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 	}
 	
 	

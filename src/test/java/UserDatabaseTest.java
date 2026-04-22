@@ -18,8 +18,9 @@ public class UserDatabaseTest {
   @Test
   public void testInsertUser() {
     String username = "testUser" + System.currentTimeMillis();
+	UserDatabase db = new UserDatabase();
 
-    UserDatabase.insertUser(username, "password123");
+    db.insertUser(username, "password123");
 
     System.out.println("Inserted user: " + username);
   }

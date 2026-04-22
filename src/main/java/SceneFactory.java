@@ -1,5 +1,6 @@
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -18,9 +19,10 @@ public class SceneFactory{
       case LOGIN -> buildLoginScene(scene);
       case ACCOUNT_CREATION -> null;
       case HOME -> null;
-      case SEARCH -> null;
-      case ALBUM -> null;
-      case REVIEWS -> null;
+      case SEARCH -> buildSearchPage(scene);
+      case WRITEREVIEW-> buildReviewPage(scene);
+	  case ALBUM -> null;
+	  case REVIEWS -> null;
       case ACCOUNT -> buildAccountScene(scene);
     };
   }
@@ -29,7 +31,7 @@ public class SceneFactory{
   //these are format examples for how we will construct our scenes
   private static Scene buildLoginScene(Stage scene) throws Exception {
     //loads the login layout from the FXML file
-    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/login.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/login.fxml"));
 
     //creates a scene from the loaded FXML
     Scene loginScene = new Scene(fxmlLoader.load());
@@ -55,24 +57,24 @@ public class SceneFactory{
   }
   
   private static Scene buildSearchPage(Stage scene) throws IOException {
-	  FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("org.example.searchPage.fxml"));
+	  FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/SearchPage.fxml"));
 	  
-	  SearchPageController controller = fxmlLoader.getController();
-	  fxmlLoader.setController(controller);
+//	  Parent root = (Parent) fxmlLoader.load();
+//	  scene.setScene(new Scene(root));
+//	  SearchPageController controller = fxmlLoader.getController();
+//	  fxmlLoader.setController(controller);
 	  Scene searchScene = new Scene(fxmlLoader.load());
 	  scene.sizeToScene();
 	  return searchScene;
   }
   
   private static Scene buildReviewPage(Stage scene) throws IOException{
-	  FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("org.example.searchPage.fxml"));
-	  Album alb = (Album) scene.getUserData();
-	  WriteReviewController controller = new WriteReviewController();
-	  scene.setUserData(alb);
-	  scene.sizeToScene();
-	  fxmlLoader.setController(controller);
-	  Scene reviewScene = new Scene(fxmlLoader.load());
-	  return reviewScene;
+	  FXMLLoader fxmlLoader = new FXMLLoader(SceneFactory.class.getResource("/writeReview.fxml"));
+	  Parent root = (Parent) fxmlLoader.load();
+	  scene.setScene(new Scene(root));
+//	  Scene reviewScene = new Scene(fxmlLoader.load());
+//	  scene.sizeToScene();
+	  return new Scene(root);
   }
   
   

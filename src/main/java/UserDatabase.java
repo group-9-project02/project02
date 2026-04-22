@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 //import se.michaelthelin.spotify.model_objects.specification.User;
 
 
@@ -136,18 +138,41 @@ class UserDatabase {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
-
+	
+	public Integer getAlbumKey(String albumSpotId){
+		String getAlbum = "SELECT albumKey "
+							  + "FROM storedAlbums "
+							  + "WHERE albumId=?";
+		try(Connection connection = DriverManager.getConnection(dbName)){
+			PreparedStatement query  = connection.prepareStatement(getAlbum);
+			query.setString(1, albumSpotId.trim());
+			System.out.println(albumSpotId.trim());
+			ResultSet rs = query.executeQuery();
+			if(rs.next()){
+				int val = rs.getInt("albumKey");
+				System.out.println((val));
+				if(rs.wasNull()){
+					System.out.println("null val");
+					return null;
+				}
+			}
+			
+			return (Integer)rs.getInt("albumKey");
+		} catch (SQLException e) {
+			return null;
+		}
+	};
 	/**
 	 * Inserts a new review into the userReviews table
 	 * @param artist the artist name
 	 * @param album the album name
 	 * @param review the user written review text
 	 * @param author the userId of the user who wrote the review
-	 * @param albumId the albumId of the album that's being reviewed
+	 * @param albumKey the albumId of the album that's being reviewed
 	 */
-public void insertReview(String artist, String album, String review, int author, int albumId) {
+public void insertReview(String artist, String album, String review, int author, int albumKey) {
 	//inserts a new row into userReviews table
-	String sql = "INSERT INTO userReviews(artist, album, review, author, albumId) VALUES(?, ?, ?, ?, ?)";
+	String sql = "INSERT INTO userReviews(artist, album, review, author, albumKey) VALUES(?, ?, ?, ?, ?)";
 
 	//try with resources so connection closes properly
 	try (Connection connection = DriverManager.getConnection(dbName);
@@ -160,7 +185,7 @@ public void insertReview(String artist, String album, String review, int author,
 		pstmt.setString(2, album);
 		pstmt.setString(3, review);
 		pstmt.setInt(4, author);
-		pstmt.setInt(5, albumId);
+		pstmt.setInt(5, albumKey);
 
 		pstmt.executeUpdate();
 
@@ -190,6 +215,23 @@ public void updateReview(String update, int reviewId){
 	
 	
 }
+	public Map<Integer, String> getReview(Integer albumInt){
+		String check = "SELECT albumKey "
+						   + "FROM userReviews "
+						   + "WHERE albumKey = ?";
+			
+		try(Connection connection = DriverManager.getConnection(dbName)){
+			PreparedStatement query = connection.prepareStatement(check);
+			query.setInt(1, albumInt);
+			ResultSet rs = query.executeQuery();
+			Map<Integer, String> review = new HashMap<Integer, String>();
+			review.put(rs.getInt("reviewId"), rs.getString("review"));
+			return review;
+		} catch (SQLException e) {
+			return null;
+		}
+		
+	}
 
 	//Means of removing all data from database.
 	public void dropTables(){
@@ -216,6 +258,7 @@ public void updateReview(String update, int reviewId){
 			
 			try (Connection connection = DriverManager.getConnection(dbName)){
 				PreparedStatement query = connection.prepareStatement(check);
+				query.setString(1, user);
 				ResultSet res = query.executeQuery();
 				System.out.println("query");
 				if(res.getObject(1) == null){
@@ -227,7 +270,12 @@ public void updateReview(String update, int reviewId){
 			}catch (SQLException e ){
 				System.out.println(("Couldnt add user: "+ e.toString()));
 				}
-			}
+			};
+	
+	public void getCurrUser(){
+	
+	}
+	
 
 	//function to read the database for a display all usernames and their associated password
 	public void readDatabase(){

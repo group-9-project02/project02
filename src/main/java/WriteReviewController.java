@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,9 +23,12 @@ public class WriteReviewController {
 		String review = userReview.getText();
 		String rating = userRating.getText();
 		UserDatabase db = new UserDatabase();
-		Integer userId = 1; //placeholder
-		Integer albumInt = 1;
-		db.insertReview(alb.artist,alb.name, review, userId, albumInt);
+		Integer userId = User.currUserId; //placeholder
+		if(reviewId == null) {
+			db.insertReview(alb.artist, alb.name, review, userId, albumKey);
+		}else{
+			db.updateReview(review , reviewId);
+		};
 	}
 	
 	@FXML
@@ -43,16 +47,30 @@ public class WriteReviewController {
 	
 	Album alb;
 	
+	HashMap<Integer,String> review;
+	Integer albumKey;
+	Integer reviewId;
+	UserDatabase db = new UserDatabase();
 	
 	@FXML
 	private void getData(){
-		alb = new Album(this.alb.name, this.alb.artist, this.alb.id);
 	}
 
 	@FXML
 	private void initialize(){
-		album = new Label(alb.name);
-		artist = new Label(alb.artist);
+		getData();
+		
+		album = new Label(User.currAlbum.name);
+		artist = new Label(User.currAlbum.artist);
+		albumKey= db.getAlbumKey(User.currAlbum.id);
+		if(albumKey != null) {
+			review = new HashMap<>(db.getReview(albumKey));
+			if (!review.keySet().isEmpty()) {
+				reviewId = (Integer) review.keySet().toArray()[0];
+				userReview.setText(review.get(reviewId));
+			}
+			
+		}
 		
 	};
 	

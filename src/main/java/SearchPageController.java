@@ -10,25 +10,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-/**
-*
-* Author: Malik Kouyate
-* Created: 4/16/2026
-* Purpose:
-*
-**/
-class Album {
-	
-	public String name = "name";
-	public String artist = "artist";
-	public String id ="id";
-	
-	Album(String name , String artist, String id) {
-		this.name = name;
-		this.artist = artist;
-		this.id = id;
-	 }
-}
+import javafx.stage.Stage;
 
 
 class AlbumCell extends ListCell<Album>{
@@ -54,18 +36,32 @@ class AlbumCell extends ListCell<Album>{
 				Album alb = getItem();
 				System.out.println((alb.id));
 				System.out.println(("out"));
+			try {
 				storeAlbum(alb);
-				
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			
 		});
 		
 	}
-	void storeAlbum(Album alb){
+	void storeAlbum(Album alb)  {
 		UserDatabase db = new UserDatabase();
-		db.insertAlbum(alb.name, alb.artist, alb.id);
+		try{
+			Integer albumKey = (Integer) db.getAlbumKey(alb.id);
+			System.out.println("albKey");
+			System.out.println((albumKey));
+			if (albumKey == null) {
+				db.insertAlbum(alb.name, alb.artist, alb.id.trim());
+			}
+			User.currAlbum = new Album(alb);
+			SceneFactory.createScene(SceneType.WRITEREVIEW,(Stage) button.getScene().getWindow());
+			
+		}catch(Exception e){
+			System.out.println(("error: "+ e.toString()));
+			
+		}
 		//use this and add stage.getUserData()
-		setUserData(alb);
-		
-		
 	}
 	
 
@@ -101,9 +97,7 @@ public class SearchPageController {
 	
 	@FXML
 	private ListView<Album> albumList ;
-	
 //	private ListView<String> albumList;
-	
 	@FXML
 	private ObservableList<Album> albums = FXCollections.observableArrayList();
 //	private ObservableList<String> albums = FXCollections.observableArrayList();

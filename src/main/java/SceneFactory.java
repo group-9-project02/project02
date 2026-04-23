@@ -39,7 +39,7 @@ public class SceneFactory{
   //these are format examples for how we will construct our scenes
   private static Scene buildLoginScene(Stage scene) throws Exception {
     //loads the login layout from the FXML file
-    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/login.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
 
     //creates a scene from the loaded FXML
     Scene loginScene = new Scene(fxmlLoader.load());
@@ -52,7 +52,7 @@ public class SceneFactory{
 
   private static Scene buildAccountCreationScene(Stage scene) throws Exception {
     //loads the login layout from the FXML file
-    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/accountCreation.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("accountCreation.fxml"));
 
     //creates a scene from the loaded FXML
     Scene accountCreationScene = new Scene(fxmlLoader.load());

@@ -1,4 +1,4 @@
-//package org.example;
+
 
 import java.awt.Image;
 import java.io.IOException;

@@ -1,6 +1,10 @@
+
 import java.io.IOException;
 
+
+import java.io.IOException;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 //import javafx.scene.control.Button;
 //import javafx.scene.control.Label;
@@ -24,8 +28,7 @@ public class SceneFactory{
       case ACCOUNT_CREATION -> buildAccountCreationScene(scene);
       case HOME -> null;
       case SEARCH -> buildSearchPage(scene);
-      case WRITEREVIEW-> buildReviewPage(scene);
-	  case ALBUM -> null;
+	  case ALBUM -> buildReviewPage(scene);
 	  case REVIEWS -> null;
       case ACCOUNT -> null;
     };
@@ -71,7 +74,7 @@ public class SceneFactory{
 	  return searchScene;
   }
   
-  private static Scene buildReviewPage(Stage scene) throws IOException{
+  private static Scene buildReviewPage(Stage scene) throws IOException {
 	  FXMLLoader fxmlLoader = new FXMLLoader(SceneFactory.class.getResource("/writeReview.fxml"));
 	  Parent root = (Parent) fxmlLoader.load();
 	  scene.setScene(new Scene(root));
@@ -79,6 +82,15 @@ public class SceneFactory{
 //	  scene.sizeToScene();
 	  return new Scene(root);
   }
+  
+  private static Scene buildAccountScene(Stage scene) throws IOException {
+	  FXMLLoader fxmlLoader = new FXMLLoader(SceneFactory.class.getResource("/writeReview.fxml"));
+	  Parent root = (Parent) fxmlLoader.load();
+	  scene.setScene(new Scene(root));
+//	  Scene reviewScene = new Scene(fxmlLoader.load());
+//	  scene.sizeToScene();
+	  return new Scene(root);
+  };
   
   
 }

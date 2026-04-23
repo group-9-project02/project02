@@ -14,13 +14,14 @@
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="369.0" prefWidth="598.0">
          <children>
             <TextField fx:id="searchText" layoutX="125.0" layoutY="8.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="275.0" promptText="Album search" />
-            <Button fx:id="searchButton" onMouseClicked="#handleSearch" layoutX="400.0" layoutY="8.0" mnemonicParsing="false" text="Search" />
-            <ToggleButton fx:id="searchToggle" layoutX="475.0" layoutY="8.0" mnemonicParsing="false" prefWidth="75.0" text="ToggleButton" />
+            <Button fx:id="searchButton" layoutX="400.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#handleSearch" text="Search" />
+            <Button fx:id="homeToggle" layoutX="475.0" layoutY="8.0" mnemonicParsing="false" prefWidth="75.0" text="Home" />
             <VBox layoutY="40.0" prefHeight="306.0" prefWidth="598.0">
                <children>
-                  <ListView fx:id="albumList"/>
+                  <ListView fx:id="albumList" />
                </children>
             </VBox>
+            <Button layoutX="37.0" layoutY="8.0" mnemonicParsing="false" onAction="#hanldeUser" text="User Page" />
          </children></AnchorPane>
   </items>
 </SplitPane>

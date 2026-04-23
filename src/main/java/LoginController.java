@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 
+
 /**
  * Name: Xiomara Turpin
  * Date: 04/15/2026
@@ -74,6 +75,14 @@ public class LoginController {
     stage.setScene(SceneFactory.createScene(newScene, stage));
     stage.show();
   }
+
+
+
+
+
+
+
+
 
     //default scene if load fails
    /* Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));

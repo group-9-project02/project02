@@ -1,9 +1,16 @@
 
 import java.io.IOException;
+
+
+import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+//import javafx.scene.control.Button;
+//import javafx.scene.control.Label;
+//import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.Parent;
 
 /**
  * This will act as the controller that will create and manage switching between scenes
@@ -23,7 +30,7 @@ public class SceneFactory{
       case SEARCH -> buildSearchPage(scene);
 	  case ALBUM -> buildReviewPage(scene);
 	  case REVIEWS -> null;
-      case ACCOUNT -> buildAccountScene(scene);
+      case ACCOUNT -> null;
     };
   }
 
@@ -31,7 +38,7 @@ public class SceneFactory{
   //these are format examples for how we will construct our scenes
   private static Scene buildLoginScene(Stage scene) throws Exception {
     //loads the login layout from the FXML file
-    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/login.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
 
     //creates a scene from the loaded FXML
     Scene loginScene = new Scene(fxmlLoader.load());
@@ -44,7 +51,7 @@ public class SceneFactory{
 
   private static Scene buildAccountCreationScene(Stage scene) throws Exception {
     //loads the login layout from the FXML file
-    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/accountCreation.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/accountCreation.fxml"));
 
     //creates a scene from the loaded FXML
     Scene accountCreationScene = new Scene(fxmlLoader.load());
@@ -56,7 +63,7 @@ public class SceneFactory{
   }
   
   private static Scene buildSearchPage(Stage scene) throws IOException {
-	  FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/SearchPage.fxml"));
+	  FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/searchPage.fxml"));
 	  
 //	  Parent root = (Parent) fxmlLoader.load();
 //	  scene.setScene(new Scene(root));

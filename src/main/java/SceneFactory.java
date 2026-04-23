@@ -23,10 +23,11 @@ public class SceneFactory{
       case LOGIN -> buildLoginScene(scene);
       case ACCOUNT_CREATION -> buildAccountCreationScene(scene);
       case HOME -> null;
-      case SEARCH -> buildSearchScene(scene);
-      case ALBUM -> null;
-      case REVIEWS -> null;
-      case ACCOUNT -> null;
+      case SEARCH -> buildSearchPage(scene);
+      case WRITEREVIEW-> buildReviewPage(scene);
+	  case ALBUM -> null;
+	  case REVIEWS -> null;
+      case ACCOUNT -> buildAccountScene(scene);
     };
   }
 
@@ -57,19 +58,27 @@ public class SceneFactory{
 
     return accountCreationScene;
   }
-
-  private static Scene buildSearchScene(Stage scene) throws Exception {
-    //loads the login layout from the FXML file
-    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/searchPage.fxml"));
-
-    //creates a scene from the loaded FXML
-    Scene searchScene = new Scene(fxmlLoader.load());
-
-    //Autosize the window to fit the content
-    scene.sizeToScene();
-
-    return searchScene;
+  
+  private static Scene buildSearchPage(Stage scene) throws IOException {
+	  FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/SearchPage.fxml"));
+	  
+//	  Parent root = (Parent) fxmlLoader.load();
+//	  scene.setScene(new Scene(root));
+//	  SearchPageController controller = fxmlLoader.getController();
+//	  fxmlLoader.setController(controller);
+	  Scene searchScene = new Scene(fxmlLoader.load());
+	  scene.sizeToScene();
+	  return searchScene;
   }
-
-
+  
+  private static Scene buildReviewPage(Stage scene) throws IOException{
+	  FXMLLoader fxmlLoader = new FXMLLoader(SceneFactory.class.getResource("/writeReview.fxml"));
+	  Parent root = (Parent) fxmlLoader.load();
+	  scene.setScene(new Scene(root));
+//	  Scene reviewScene = new Scene(fxmlLoader.load());
+//	  scene.sizeToScene();
+	  return new Scene(root);
+  }
+  
+  
 }

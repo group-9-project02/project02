@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 //import se.michaelthelin.spotify.model_objects.specification.User;
 
 
@@ -17,8 +19,8 @@ import java.sql.Statement;
 
 class UserDatabase {
 	
-//	private String dbName = "jdbc:sqlite:userDb.db";
-	private String dbName = "jdbc:sqlite:src/main/java/org/example/userDb.db";
+	private String dbName = "jdbc:sqlite:userDb.db";
+//	private String dbName = "jdbc:sqlite:src/main/java/org/example/userDb.db";
 	
 	static String userInfo= "CREATE TABLE IF NOT EXISTS userInfo( userId INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE, password TEXT NOT NULL )";
 	static String storedAlbums = "CREATE TABLE IF NOT EXISTS storedAlbums(albumId INTEGER PRIMARY KEY, album TEXT NOT NULL, artist TEXT NOT NULL)";
@@ -39,7 +41,8 @@ class UserDatabase {
 		} catch (SQLException e) {
 			System.out.println("Error: " + e);
 		}
-		dropTables();
+		createTables();
+//		dropTables();
 	}
 	//Creates tables in database.
 	public void createTables(){
@@ -135,18 +138,42 @@ class UserDatabase {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
-
+	
+	public Integer getAlbumKey(String albumSpotId){
+		String getAlbum = "SELECT albumKey "
+							  + "FROM storedAlbums "
+							  + "WHERE albumId=?";
+		Integer val = 0;
+		try(Connection connection = DriverManager.getConnection(dbName)){
+			PreparedStatement query  = connection.prepareStatement(getAlbum);
+			query.setString(1, albumSpotId.trim());
+			System.out.println(albumSpotId.trim());
+			ResultSet rs = query.executeQuery();
+			if(rs.next()){
+				val = rs.getInt("albumKey");
+				System.out.println((val));
+				if(rs.wasNull()){
+					System.out.println("null val");
+					return null;
+				}
+			}
+			
+			return val;
+		} catch (SQLException e) {
+			return null;
+		}
+	};
 	/**
 	 * Inserts a new review into the userReviews table
 	 * @param artist the artist name
 	 * @param album the album name
 	 * @param review the user written review text
 	 * @param author the userId of the user who wrote the review
-	 * @param albumId the albumId of the album that's being reviewed
+	 * @param albumKey the albumId of the album that's being reviewed
 	 */
-public void insertReview(String artist, String album, String review, int author, int albumId) {
+public void insertReview(String artist, String album, String review, int author, int albumKey) {
 	//inserts a new row into userReviews table
-	String sql = "INSERT INTO userReviews(artist, album, review, author, albumId) VALUES(?, ?, ?, ?, ?)";
+	String sql = "INSERT INTO userReviews(artist, album, review, author, albumKey) VALUES(?, ?, ?, ?, ?)";
 
 	//try with resources so connection closes properly
 	try (Connection connection = DriverManager.getConnection(dbName);
@@ -159,7 +186,7 @@ public void insertReview(String artist, String album, String review, int author,
 		pstmt.setString(2, album);
 		pstmt.setString(3, review);
 		pstmt.setInt(4, author);
-		pstmt.setInt(5, albumId);
+		pstmt.setInt(5, albumKey);
 
 		pstmt.executeUpdate();
 
@@ -189,6 +216,40 @@ public void updateReview(String update, int reviewId){
 	
 	
 }
+	public String getReview(Integer albumInt, Integer userId){
+		String check = "SELECT review "
+						   + "FROM userReviews "
+						   + "WHERE albumKey = ? "
+						   + "AND author = ?";
+			
+		try(Connection connection = DriverManager.getConnection(dbName)){
+			PreparedStatement query = connection.prepareStatement(check);
+			query.setInt(1, albumInt);
+			query.setInt(2, userId);
+			ResultSet rs = query.executeQuery();
+			return rs.getString(1);
+		} catch (SQLException e) {
+			return null;
+		}
+		
+	}
+	public Integer getReviewId(Integer albumInt, Integer userId){
+		String check = "SELECT reviewId "
+						   + "FROM userReviews "
+						   + "WHERE albumKey = ? "
+						   + "AND author = ?";
+		
+		try(Connection connection = DriverManager.getConnection(dbName)){
+			PreparedStatement query = connection.prepareStatement(check);
+			query.setInt(1, albumInt);
+			query.setInt(2, userId);
+			ResultSet rs = query.executeQuery();
+			return rs.getInt(1);
+		} catch (SQLException e) {
+			return null;
+		}
+		
+	}
 
 	//Means of removing all data from database.
 	public void dropTables(){
@@ -215,6 +276,7 @@ public void updateReview(String update, int reviewId){
 			
 			try (Connection connection = DriverManager.getConnection(dbName)){
 				PreparedStatement query = connection.prepareStatement(check);
+				query.setString(1, user);
 				ResultSet res = query.executeQuery();
 				System.out.println("query");
 				if(res.getObject(1) == null){
@@ -226,7 +288,13 @@ public void updateReview(String update, int reviewId){
 			}catch (SQLException e ){
 				System.out.println(("Couldnt add user: "+ e.toString()));
 				}
-			}
+			};
+	
+	public void getCurrUser(){
+		//need to implement
+	
+	}
+	
 
 	//function to read the database for a display all usernames and their associated password
 	public void readDatabase(){

@@ -1,17 +1,9 @@
-package org.example;
-
-
-
-
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 //Import JavaFX classes needed for the UI
-import java.io.File;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
-//import org.example.UserDatabase;
+//import UserDatabase;
 //import java.sql.Connection;
 //import java.sql.DriverManager;
 //
@@ -61,7 +53,8 @@ public class Main extends Application {
 //		stage.show();
 
 		stage.setTitle("SoundCritic");
-		stage.setScene(SceneFactory.createScene(SceneType.LOGIN, stage));
+//		stage.setScene(SceneFactory.createScene(SceneType.LOGIN, stage));
+		stage.setScene(SceneFactory.createScene(SceneType.SEARCH, stage));
 
 		stage.show();
 		

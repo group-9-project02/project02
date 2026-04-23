@@ -15,8 +15,13 @@ javafx {
     modules = ['javafx.controls', 'javafx.fxml']
 }
 
+java {
+    sourceCompatibility= JavaVersion.VERSION_22;
+    targetCompatibility = JavaVersion.VERSION_22;
+}
+
 application {
-    mainClass = 'org.example.Main'
+    mainClass = 'Main'
 }
 
 repositories {

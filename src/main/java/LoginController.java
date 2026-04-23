@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.control.Label;
 
 /**
  * Name: Xiomara Turpin
@@ -21,28 +22,38 @@ public class LoginController {
   @FXML
   private PasswordField passwordField;
 
+  @FXML
+  private Label messageLabel;
+
   //This method will run when the login button is clicked
   //*connected to onAction="#handleLogin" in the FXML
   @FXML
   private void handleLogin(ActionEvent event) {
 
+    messageLabel.setText("");
+
     String username = usernameField.getText();
     String password = passwordField.getText();
 
     if (username.isEmpty() || password.isEmpty()) {
-      System.out.println("Please enter a valid username and password");
+      messageLabel.setText("Please enter a valid username and password");
       return;
     }
     UserDatabase db = new UserDatabase();
     boolean isValidUser = db.validateUser(username, password);
 
-    if (isValidUser) {
-      System.out.println("Login successful");
-    } else {
-      System.out.println("Invalid username or password");
+    if (!isValidUser) {
+      messageLabel.setText("Invalid username or password");
     }
 
+    //if username and password successful -> switch scene to Home scene
+    //Home scene not set up yet
+    //switchScene(event, SceneType.HOME);
+
   }
+
+
+
 
   //This is a temporary method to test scene transitions will be adapted for correct useage in future version
   //*connected to onAction="#sceneTransition" in the FXML

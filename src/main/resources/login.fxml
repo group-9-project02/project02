@@ -27,6 +27,8 @@
   <Label text="Password"/>
   <PasswordField fx:id="passwordField" promptText="Enter your password"/>
 
+  <Label fx:id="messageLabel" text="" textFill="red"/>
+
   <Button text="Login" onAction="#handleLogin"/>
 
   <!-- make a string of text with clickable text-->

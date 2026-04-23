@@ -12,6 +12,5 @@ public enum SceneType{
   SEARCH,
   ALBUM,
   REVIEWS,
-  WRITEREVIEW,
   ACCOUNT
 }

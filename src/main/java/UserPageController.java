@@ -1,43 +1,30 @@
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Objects;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.event.ActionEvent;
 
 /**
 *
 * Author: Malik Kouyate
-* Created: 4/19/2026
+* Created: 4/23/2026
 * Purpose:
 *
 **/
 
-public class WriteReviewController {
+public class UserPageController {
 	
 	@FXML
-	Button submitReview;
-	@FXML
-	public void handleSubmit(MouseEvent event) {
-		String review = userReview.getText();
-		Integer userId = User.currUserId; //placeholder
-		if(User.currAlbum.getReview() == null) {
-			db.insertReview(User.currAlbum.artist, User.currAlbum.name, review, userId, User.currAlbum.albumKey);
-		}else{
-			db.updateReview(review , User.currAlbum.getReviewId());
-		};
+	Button searchNav;
+	public void navSearch(ActionEvent e) throws IOException {
+		switchScene(e, SceneType.SEARCH);
 	}
+	
 	@FXML
 	public void switchScene(ActionEvent event, SceneType newScene) throws IOException {
 		// Load the new FXML file
@@ -68,49 +55,9 @@ public class WriteReviewController {
 		stage.setScene(scene);
 		stage.show();
 	}
-	
 	@FXML
-	TextArea userReview;
+	void initialize() {
 	
-	@FXML
-	Button userHome;
-	public void handleHome(ActionEvent event) throws IOException {
-		System.out.println("home");
-		switchScene(event, SceneType.HOME);
 	}
-	@FXML
-	Button userPage;
-	public void handleUser(ActionEvent event) throws IOException {
-		System.out.println("user");
-		switchScene(event, SceneType.ACCOUNT);
-		
-	}
-	
-	
-	@FXML
-	VBox albumInfo;
-	
-	
-	@FXML
-	Label album;
-	
-	@FXML
-	Label artist;
-	UserDatabase db = new UserDatabase();
-	@FXML
-	private void initialize(){
-		System.out.println(User.currAlbum.name);
-		System.out.println((User.currAlbum.artist));
-		System.out.println((User.currAlbum.id));
-		album.setText(User.currAlbum.name);
-		artist.setText(User.currAlbum.artist);
-		String review = db.getReview(User.currAlbum.albumKey, User.currUserId);
-		if(review != null){
-			userReview.setText(review);
-		}
-		
-	};
-	
-	
 	
 }

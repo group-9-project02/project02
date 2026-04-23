@@ -4,8 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
 //import se.michaelthelin.spotify.model_objects.specification.User;
 
 
@@ -233,6 +231,39 @@ public void updateReview(String update, int reviewId){
 		}
 		
 	}
+
+	public String getAllUserReviews(Integer userId){
+		String check = "SELECT review "
+				+ "FROM userReviews "
+				+ "WHERE author = ?";
+
+		try(Connection connection = DriverManager.getConnection(dbName)){
+			PreparedStatement query = connection.prepareStatement(check);
+			query.setInt(1, userId);
+			ResultSet rs = query.executeQuery();
+			return rs.getString(1);
+		} catch (SQLException e) {
+			return null;
+		}
+
+	}
+
+	public String userReviewedAlbums(Integer userId){
+		String check = "SELECT album "
+				+ "FROM userReviews "
+				+ "WHERE author = ?";
+
+		try(Connection connection = DriverManager.getConnection(dbName)){
+			PreparedStatement query = connection.prepareStatement(check);
+			query.setInt(1, userId);
+			ResultSet rs = query.executeQuery();
+			return rs.getString(1);
+		} catch (SQLException e) {
+			return null;
+		}
+
+	}
+
 	public Integer getReviewId(Integer albumInt, Integer userId){
 		String check = "SELECT reviewId "
 						   + "FROM userReviews "

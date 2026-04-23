@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<SplitPane dividerPositions="0.09547738693467336, 0.17587939698492464, 0.36683417085427134" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
+  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="150.0" minWidth="100.0" prefWidth="300.0" text="SoundCritic">
+    <font>
+      <Font size="24.0" />
+    </font>
+  </Label>
+  <AnchorPane minHeight="0.0" minWidth="0" prefHeight="369.0" prefWidth="598.0">
+    <Button fx:id="searchButton" layoutX="50.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#transitionAlbumSearch" text="Album search" />
+    <Button fx:id="accountButton" layoutX="450.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#transitionAccount" text="Account Page" />
+  </AnchorPane>
+  <HBox>
+    <Label alignment="CENTER" text="Albums" />
+      <ListView fx:id="albumList" prefHeight="70.0" prefWidth="513.0" />
+  <!--  List some of the albums stored in the db-->
+  </HBox>
+  <VBox>
+    <Label alignment="CENTER" text="Your Reviews" />
+      <ListView fx:id="reviewsList" prefHeight="200.0" prefWidth="200.0" />
+    <!--    List recent reviews from the user-->
+  </VBox>
+
+</SplitPane>

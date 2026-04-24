@@ -77,8 +77,8 @@ public class HomeController implements Initializable {
     stage.show();
   }
 
-  //need to find a way to pass in the current users id
-  private int curUser;
+  //need to find a way to pass in the current users id   * 1 is a temp placeholder *
+  private int curUser = 1;
   @FXML
   public void initialize(URL url, ResourceBundle resourceBundle) {
     UserDatabase db = new UserDatabase();

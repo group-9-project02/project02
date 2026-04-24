@@ -42,7 +42,7 @@ public class SceneFactory{
     FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
 
     //creates a scene from the loaded FXML
-    Scene loginScene = new Scene(fxmlLoader.load());
+    Scene loginScene = new Scene(fxmlLoader.load(), 400, 300);
 
     //Autosize the window to fit the content
     scene.sizeToScene();
@@ -55,7 +55,7 @@ public class SceneFactory{
     FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("accountCreation.fxml"));
 
     //creates a scene from the loaded FXML
-    Scene accountCreationScene = new Scene(fxmlLoader.load());
+    Scene accountCreationScene = new Scene(fxmlLoader.load(), 400, 300);
 
     //Autosize the window to fit the content
     scene.sizeToScene();

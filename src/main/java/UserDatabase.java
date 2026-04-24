@@ -318,12 +318,34 @@ public void updateReview(String update, int reviewId){
 			}catch (SQLException e ){
 				System.out.println(("Couldnt add user: "+ e.toString()));
 				}
-			};
+			}
 	
 	public void getCurrUser(){
 		//need to implement
 	
 	}
+
+	public boolean validateUser(String username, String password) {
+
+		String sql = "SELECT * FROM userInfo WHERE name = ? AND password = ?";
+
+		try (Connection connection = DriverManager.getConnection(dbName);
+				PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			return rs.next();
+
+		} catch (SQLException e) {
+			System.out.println("Error validating user: " + e.getMessage());
+			return false;
+		}
+	}
+
+
 	
 
 	//function to read the database for a display all usernames and their associated password

@@ -35,7 +35,7 @@ public class WriteReviewController {
 		if(User.currAlbum.getReview() == null) {
 			db.insertReview(User.currAlbum.artist, User.currAlbum.name, review, userId, User.currAlbum.albumKey);
 		}else{
-			db.updateReview(review , User.currAlbum.getReviewId());
+			db.updateReview(review , db.getReviewId(User.currAlbum.albumKey, User.currUserId));
 		};
 	}
 	@FXML

@@ -65,7 +65,7 @@ class AlbumCell extends ListCell<Album>{
 			System.out.println("albKey");
 			System.out.println((albumKey));
 			albKey = albumKey;
-			if (albumKey == 0) {
+			if (albKey == 0) {
 				db.insertAlbum(alb.name, alb.artist, alb.id.trim());
 				alb.setAlbumKey(db.getAlbumKey(alb.id));
 			}

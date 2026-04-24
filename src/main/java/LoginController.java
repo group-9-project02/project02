@@ -29,7 +29,7 @@ public class LoginController {
   //This method will run when the login button is clicked
   //*connected to onAction="#handleLogin" in the FXML
   @FXML
-  private void handleLogin(ActionEvent event) {
+  private void handleLogin(ActionEvent event) throws Exception {
 
     messageLabel.setText("");
 
@@ -45,11 +45,9 @@ public class LoginController {
 
     if (!isValidUser) {
       messageLabel.setText("Invalid username or password");
+    }else{
+      switchScene(event , SceneType.HOME);
     }
-
-    //if username and password successful -> switch scene to Home scene
-    //Home scene not set up yet
-    //switchScene(event, SceneType.HOME);
 
   }
 

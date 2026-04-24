@@ -40,7 +40,7 @@ public class HomeController implements Initializable {
     switchScene(event, SceneType.SEARCH);
   }
 
-  //This is a temporary method to test scene transitions will be adapted for correct useage in future version
+  //This is a temporary method to test scene transitions will be adapted for correct usage in future version
   //*connected to onAction="#sceneTransition" in the FXML
   @FXML
   private void transitionAccount(ActionEvent event) throws IOException{
@@ -64,7 +64,7 @@ public class HomeController implements Initializable {
       case SEARCH -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("searchPage.fxml")));
       case ALBUM -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
       case REVIEWS -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
-      case ACCOUNT -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+      case ACCOUNT -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("userPage.fxml")));
     };
 
 

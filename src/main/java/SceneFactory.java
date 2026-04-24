@@ -26,7 +26,7 @@ public class SceneFactory{
     return switch (type){
       case LOGIN -> buildLoginScene(scene);
       case ACCOUNT_CREATION -> buildAccountCreationScene(scene);
-      case HOME -> null;
+      case HOME -> buildHomePage(scene);
       case SEARCH -> buildSearchPage(scene);
       case WRITEREVIEW-> buildReviewPage(scene);
 	    case ALBUM -> null;
@@ -62,9 +62,22 @@ public class SceneFactory{
 
     return accountCreationScene;
   }
+
+  private static Scene buildHomePage(Stage scene) throws Exception {
+    //loads the login layout from the FXML file
+    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("home.fxml"));
+
+    //creates a scene from the loaded FXML
+    Scene homeScene = new Scene(fxmlLoader.load());
+
+    //Autosize the window to fit the content
+    scene.sizeToScene();
+
+    return homeScene;
+  }
   
   private static Scene buildSearchPage(Stage scene) throws Exception {
-	  FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/SearchPage.fxml"));
+	  FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("SearchPage.fxml"));
 	  
 //	  Parent root = (Parent) fxmlLoader.load();
 //	  scene.setScene(new Scene(root));
@@ -76,7 +89,7 @@ public class SceneFactory{
   }
   
   private static Scene buildReviewPage(Stage scene) throws Exception{
-	  FXMLLoader fxmlLoader = new FXMLLoader(SceneFactory.class.getResource("/writeReview.fxml"));
+	  FXMLLoader fxmlLoader = new FXMLLoader(SceneFactory.class.getResource("writeReview.fxml"));
     //creates a scene from the loaded FXML
     Scene writeReviewsScene = new Scene(fxmlLoader.load());
 

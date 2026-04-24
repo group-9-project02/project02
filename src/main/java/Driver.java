@@ -22,7 +22,7 @@ public class Driver{
 		
 		UserDatabase db = new UserDatabase();
 		
-		//db.dropTables();
+		db.dropTables();
 		db.createTables();
 		
 		//test for insertUser
@@ -91,7 +91,9 @@ public class Driver{
 		}
 
 		static private Properties getProps(){
-			File f = new File(".env");
+			String path = "src/main/java/.env";
+//			File f = new File(".env");
+			File f = new File(path);
 			Properties p = new Properties();
 			try (FileReader file = new FileReader(f)) {
 				p.load(file);

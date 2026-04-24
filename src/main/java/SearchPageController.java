@@ -67,8 +67,9 @@ class AlbumCell extends ListCell<Album>{
 			albKey = albumKey;
 			if (albumKey == 0) {
 				db.insertAlbum(alb.name, alb.artist, alb.id.trim());
-				alb.setAlbumKey(db.getAlbumKey(alb.id));
+//				alb.setAlbumKey(albumKey);
 			}
+			albKey = db.getAlbumKey(alb.id);
 			
 			alb.setReview(db.getReview(albumKey, User.currUserId));
 			alb.setReviewId(db.getReviewId(albumKey,User.currUserId));
@@ -109,7 +110,7 @@ class AlbumCell extends ListCell<Album>{
 		switch (newScene){
 			case LOGIN -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
 			case ACCOUNT_CREATION -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("accountCreation.fxml")));
-			case HOME -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+			case HOME -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
 			case SEARCH -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("searchPage.fxml")));
 			case ALBUM -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("writeReview.fxml")));
 			case REVIEWS -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
@@ -161,7 +162,7 @@ public class SearchPageController {
 	switch (newScene){
 		case LOGIN -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
 		case ACCOUNT_CREATION -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("accountCreation.fxml")));
-		case HOME -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+		case HOME -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
 		case SEARCH -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("searchPage.fxml")));
 		case ALBUM -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("writeReview.fxml")));
 		case REVIEWS -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));

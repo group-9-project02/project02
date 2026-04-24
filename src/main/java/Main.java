@@ -62,6 +62,9 @@ public class Main extends Application {
 	//launches the app and calls start() method
 	public static void main(String[] args) {
 		System.out.println(System.getProperty("user.dir"));
+		UserDatabase db = new UserDatabase();
+		db.getDbConnection();
+		
 		launch(args);
 		
 	}

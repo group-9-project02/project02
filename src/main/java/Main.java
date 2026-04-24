@@ -53,8 +53,7 @@ public class Main extends Application {
 //		stage.show();
 
 		stage.setTitle("SoundCritic");
-//		stage.setScene(SceneFactory.createScene(SceneType.LOGIN, stage));
-		stage.setScene(SceneFactory.createScene(SceneType.SEARCH, stage));
+		stage.setScene(SceneFactory.createScene(SceneType.LOGIN, stage));
 
 		stage.show();
 		

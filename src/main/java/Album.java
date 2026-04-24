@@ -26,6 +26,7 @@ public class Album {
 		this.id = id;
 		this.reviewId= reviewId;
 		this.review = review;
+		this.albumKey = albumKey;
 	}
 	public void setReview(String s){
 		review = s;

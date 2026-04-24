@@ -46,7 +46,7 @@ class AlbumCell extends ListCell<Album>{
 				System.out.println(("out"));
 			try {
 				storeAlbum(alb);
-				switchScene(event,SceneType.WRITEREVIEW);
+				switchScene(event,SceneType.ALBUM);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -138,7 +138,10 @@ public class SearchPageController {
 	private Button searchButton;
 	
 	@FXML
-	private ToggleButton searchToggle;
+	private Button homeToggle;
+	
+	@FXML
+	private Button userButton;
 	
 	@FXML
 	private ListView<Album> albumList ;
@@ -146,6 +149,35 @@ public class SearchPageController {
 	@FXML
 	private ObservableList<Album> albums = FXCollections.observableArrayList();
 //	private ObservableList<String> albums = FXCollections.observableArrayList();
+
+	
+	@FXML
+	public void switchScene(ActionEvent event, SceneType newScene) throws IOException {
+	// Load the new FXML file
+	
+	//default scene if load fails
+		FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
+		Parent root;
+	switch (newScene){
+		case LOGIN -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
+		case ACCOUNT_CREATION -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("accountCreation.fxml")));
+		case HOME -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+		case SEARCH -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("searchPage.fxml")));
+		case ALBUM -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("writeReview.fxml")));
+		case REVIEWS -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+		case ACCOUNT -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("userPage.fxml")));
+		default -> throw new IllegalStateException("Unexpected value: " + newScene);
+	};
+	
+	
+	// Get the current stage from the event source
+	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+	
+	// Create and set the new scene
+	Scene scene = new Scene(root);
+	stage.setScene(scene);
+	stage.show();
+	}
 	
 	@FXML
 	protected void addToObservable(Album a) {
@@ -173,9 +205,23 @@ public class SearchPageController {
 		
 	}
 	
+	
 	@FXML
 	private void initialize() {
 		albumList.setCellFactory(lv -> new AlbumCell());
+		homeToggle.setOnAction(e -> {
+			try {
+				switchScene(e , SceneType.HOME);
+			} catch (IOException ex) {
+				System.out.println(("error " + ex ));
+			}
+			
+		});
+	}
+	
+	public void hanldeUser(ActionEvent event) throws IOException {
+		System.out.println("account");
+		switchScene(event, SceneType.ACCOUNT);
 	}
 }
 	

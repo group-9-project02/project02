@@ -27,7 +27,9 @@
   <Label text="Password"/>
   <PasswordField fx:id="passwordField" promptText="Enter your password"/>
 
-  <Button text="Login" onAction="#handleLogin"/>
+  <Label fx:id="messageLabel" text="" textFill="red"/>
+
+  <Button text="Login" onAction="#handleLogin" defaultButton="true"/>
 
   <!-- make a string of text with clickable text-->
   <!-- this is used to test the scene transition function will be removed/adjusted future versions if necessary-->

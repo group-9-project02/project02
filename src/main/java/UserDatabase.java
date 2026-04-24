@@ -4,8 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
 //import se.michaelthelin.spotify.model_objects.specification.User;
 
 
@@ -20,7 +18,6 @@ import java.util.Map;
 class UserDatabase {
 	
 	private String dbName = "jdbc:sqlite:userDb.db";
-//	private String dbName = "jdbc:sqlite:src/main/java/org/example/userDb.db";
 	
 	static String userInfo= "CREATE TABLE IF NOT EXISTS userInfo( userId INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE, password TEXT NOT NULL )";
 	static String storedAlbums = "CREATE TABLE IF NOT EXISTS storedAlbums(albumId INTEGER PRIMARY KEY, album TEXT NOT NULL, artist TEXT NOT NULL)";
@@ -233,6 +230,39 @@ public void updateReview(String update, int reviewId){
 		}
 		
 	}
+
+	public String getAllUserReviews(Integer userId){
+		String check = "SELECT review "
+				+ "FROM userReviews "
+				+ "WHERE author = ?";
+
+		try(Connection connection = DriverManager.getConnection(dbName)){
+			PreparedStatement query = connection.prepareStatement(check);
+			query.setInt(1, userId);
+			ResultSet rs = query.executeQuery();
+			return rs.getString(1);
+		} catch (SQLException e) {
+			return null;
+		}
+
+	}
+
+	public String userReviewedAlbums(Integer userId){
+		String check = "SELECT album "
+				+ "FROM userReviews "
+				+ "WHERE author = ?";
+
+		try(Connection connection = DriverManager.getConnection(dbName)){
+			PreparedStatement query = connection.prepareStatement(check);
+			query.setInt(1, userId);
+			ResultSet rs = query.executeQuery();
+			return rs.getString(1);
+		} catch (SQLException e) {
+			return null;
+		}
+
+	}
+
 	public Integer getReviewId(Integer albumInt, Integer userId){
 		String check = "SELECT reviewId "
 						   + "FROM userReviews "
@@ -288,12 +318,34 @@ public void updateReview(String update, int reviewId){
 			}catch (SQLException e ){
 				System.out.println(("Couldnt add user: "+ e.toString()));
 				}
-			};
+			}
 	
 	public void getCurrUser(){
 		//need to implement
 	
 	}
+
+	public boolean validateUser(String username, String password) {
+
+		String sql = "SELECT * FROM userInfo WHERE name = ? AND password = ?";
+
+		try (Connection connection = DriverManager.getConnection(dbName);
+				PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			return rs.next();
+
+		} catch (SQLException e) {
+			System.out.println("Error validating user: " + e.getMessage());
+			return false;
+		}
+	}
+
+
 	
 
 	//function to read the database for a display all usernames and their associated password

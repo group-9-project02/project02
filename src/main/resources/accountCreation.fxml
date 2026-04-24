@@ -24,7 +24,11 @@
   <Label text="Re-enter Password"/>
   <PasswordField fx:id="confirmPasswordField" promptText="Re-enter your password"/>
 
-  <Button text="Create Account" onAction="#handleCreateAccount"/>
+  <Label fx:id="messageLabel" text="" textFill="red" />
+
+  <Button text="Create Account" onAction="#handleCreateAccount" defaultButton="true"/>
 
 
 </VBox>
+
+

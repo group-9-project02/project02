@@ -22,7 +22,7 @@ public class Driver{
 		
 		UserDatabase db = new UserDatabase();
 		
-		//db.dropTables();
+		db.dropTables();
 		db.createTables();
 		
 		//test for insertUser
@@ -32,7 +32,7 @@ public class Driver{
 		db.insertAlbum("testAlbum", "testArtist", "testId");
 		
 		//test for registeruser
-	/*	db.insertReview("testArtist", "testAlbum", "This is a test review", 1, 1);
+		db.insertReview("testArtist", "testAlbum", "This is a test review", 1, 1);
 		
 		String user = "user";
 		String user1 = "user1";
@@ -48,7 +48,7 @@ public class Driver{
 		db.registerUser(user1,pass);
 		db.registerUser(user, pass);
 		
-		db.readDatabase();*/
+		db.readDatabase();
 		
 		//db.dropTables();
 		

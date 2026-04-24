@@ -31,7 +31,7 @@ public class SceneFactory{
       case WRITEREVIEW-> buildReviewPage(scene);
 	    case ALBUM -> null;
 	    case REVIEWS -> null;
-      case ACCOUNT -> null;
+      case ACCOUNT -> buildAccountPage(scene);
     };
   }
 
@@ -97,6 +97,16 @@ public class SceneFactory{
     scene.sizeToScene();
 
     return writeReviewsScene;
+  }
+  private static Scene buildAccountPage(Stage scene) throws Exception{
+    FXMLLoader fxmlLoader = new FXMLLoader(SceneFactory.class.getResource("userPage.fxml"));
+    //creates a scene from the loaded FXML
+    Scene accountPage = new Scene(fxmlLoader.load());
+
+    //Autosize the window to fit the content
+    scene.sizeToScene();
+
+    return accountPage;
   }
 
 

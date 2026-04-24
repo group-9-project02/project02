@@ -100,6 +100,17 @@ class AlbumCell extends ListCell<Album>{
 		}
 		
 	}
+
+//	@FXML
+//	private void transitionHome(ActionEvent event) throws Exception{
+//		System.out.println("transition to home clicked");
+//
+//		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//
+//		stage.setScene(SceneFactory.createScene(SceneType.HOME, stage));
+//		stage.show();
+//	}
+
 	@FXML
 	public void switchScene(ActionEvent event, SceneType newScene) throws IOException {
 		// Load the new FXML file
@@ -109,7 +120,7 @@ class AlbumCell extends ListCell<Album>{
 		switch (newScene){
 			case LOGIN -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
 			case ACCOUNT_CREATION -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("accountCreation.fxml")));
-			case HOME -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+			case HOME -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
 			case SEARCH -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("searchPage.fxml")));
 			case ALBUM -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("writeReview.fxml")));
 			case REVIEWS -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
@@ -161,7 +172,7 @@ public class SearchPageController {
 	switch (newScene){
 		case LOGIN -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
 		case ACCOUNT_CREATION -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("accountCreation.fxml")));
-		case HOME -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+		case HOME -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
 		case SEARCH -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("searchPage.fxml")));
 		case ALBUM -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("writeReview.fxml")));
 		case REVIEWS -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));

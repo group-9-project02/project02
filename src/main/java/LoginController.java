@@ -41,7 +41,7 @@ public class LoginController {
       return;
     }
     UserDatabase db = new UserDatabase();
-    boolean isValidUser = true;//db.validateUser(username, password);
+    boolean isValidUser = db.validateUser(username, password);
 
     if (!isValidUser) {
       messageLabel.setText("Invalid username or password");

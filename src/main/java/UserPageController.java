@@ -27,7 +27,7 @@ public class UserPageController {
 	@FXML
 	Button homeButton;
 	public void navHome(ActionEvent e) throws IOException {
-		switchScene(e, SceneType.SEARCH);
+		switchScene(e, SceneType.HOME);
 	}
 	
 	@FXML
@@ -42,7 +42,7 @@ public class UserPageController {
 			case ACCOUNT_CREATION -> root = FXMLLoader.load(
 				Objects.requireNonNull(getClass().getResource("accountCreation.fxml")));
 			case HOME -> root = FXMLLoader.load(
-				Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+				Objects.requireNonNull(getClass().getResource("home.fxml")));
 			case SEARCH -> root = FXMLLoader.load(
 				Objects.requireNonNull(getClass().getResource("searchPage.fxml")));
 			case ALBUM -> root = FXMLLoader.load(
@@ -50,7 +50,7 @@ public class UserPageController {
 			case REVIEWS -> root = FXMLLoader.load(
 				Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
 			case ACCOUNT -> root = FXMLLoader.load(
-				Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+				Objects.requireNonNull(getClass().getResource("userPage.fxml")));
 			default -> throw new IllegalStateException("Unexpected value: " + newScene);
 		};
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

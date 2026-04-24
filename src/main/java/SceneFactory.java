@@ -21,8 +21,10 @@ import javafx.stage.Stage;
  */
 public class SceneFactory{
 
+
   //this directs what scene is build when building scenes
   public static Scene createScene(SceneType type, Stage scene) throws Exception {
+
     return switch (type){
       case LOGIN -> buildLoginScene(scene);
       case ACCOUNT_CREATION -> buildAccountCreationScene(scene);

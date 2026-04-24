@@ -65,10 +65,11 @@ class AlbumCell extends ListCell<Album>{
 			System.out.println("albKey");
 			System.out.println((albumKey));
 			albKey = albumKey;
-			if (albumKey == 0) {
+			if (albKey == 0) {
 				db.insertAlbum(alb.name, alb.artist, alb.id.trim());
-				alb.setAlbumKey(db.getAlbumKey(alb.id));
+//				alb.setAlbumKey(albumKey);
 			}
+			albKey = db.getAlbumKey(alb.id);
 			
 			alb.setReview(db.getReview(albumKey, User.currUserId));
 			alb.setReviewId(db.getReviewId(albumKey,User.currUserId));
@@ -124,7 +125,7 @@ class AlbumCell extends ListCell<Album>{
 			case SEARCH -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("searchPage.fxml")));
 			case ALBUM -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("writeReview.fxml")));
 			case REVIEWS -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
-			case ACCOUNT -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+			case ACCOUNT -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("userPage.fxml")));
 		};
 		
 		
@@ -167,7 +168,7 @@ public class SearchPageController {
 	// Load the new FXML file
 	
 	//default scene if load fails
-		FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
+		FXMLLoader.load(Objects.requireNonNull(getClass().getResource("newScene.fxml")));
 		Parent root;
 	switch (newScene){
 		case LOGIN -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));

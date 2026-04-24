@@ -35,7 +35,7 @@ public class WriteReviewController {
 		if(User.currAlbum.getReview() == null) {
 			db.insertReview(User.currAlbum.artist, User.currAlbum.name, review, userId, User.currAlbum.albumKey);
 		}else{
-			db.updateReview(review , User.currAlbum.getReviewId());
+			db.updateReview(review , db.getReviewId(User.currAlbum.albumKey, User.currUserId));
 		};
 	}
 	@FXML
@@ -50,7 +50,7 @@ public class WriteReviewController {
 			case ACCOUNT_CREATION -> root = FXMLLoader.load(
 				Objects.requireNonNull(getClass().getResource("accountCreation.fxml")));
 			case HOME -> root = FXMLLoader.load(
-				Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+				Objects.requireNonNull(getClass().getResource("home.fxml")));
 			case SEARCH -> root = FXMLLoader.load(
 				Objects.requireNonNull(getClass().getResource("searchPage.fxml")));
 			case ALBUM -> root = FXMLLoader.load(
@@ -58,7 +58,7 @@ public class WriteReviewController {
 			case REVIEWS -> root = FXMLLoader.load(
 				Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
 			case ACCOUNT -> root = FXMLLoader.load(
-				Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+				Objects.requireNonNull(getClass().getResource("userPage.fxml")));
 			default -> throw new IllegalStateException("Unexpected value: " + newScene);
 		};
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

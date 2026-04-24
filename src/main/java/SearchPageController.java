@@ -114,7 +114,7 @@ class AlbumCell extends ListCell<Album>{
 			case SEARCH -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("searchPage.fxml")));
 			case ALBUM -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("writeReview.fxml")));
 			case REVIEWS -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
-			case ACCOUNT -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("NewScene.fxml")));
+			case ACCOUNT -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("userPage.fxml")));
 		};
 		
 		
@@ -157,7 +157,7 @@ public class SearchPageController {
 	// Load the new FXML file
 	
 	//default scene if load fails
-		FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
+		FXMLLoader.load(Objects.requireNonNull(getClass().getResource("newScene.fxml")));
 		Parent root;
 	switch (newScene){
 		case LOGIN -> root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));

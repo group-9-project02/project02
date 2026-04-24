@@ -20,8 +20,13 @@ import javafx.event.ActionEvent;
 public class UserPageController {
 	
 	@FXML
-	Button searchNav;
+	Button searchButton;
 	public void navSearch(ActionEvent e) throws IOException {
+		switchScene(e, SceneType.SEARCH);
+	}
+	@FXML
+	Button homeButton;
+	public void navHome(ActionEvent e) throws IOException {
 		switchScene(e, SceneType.SEARCH);
 	}
 	

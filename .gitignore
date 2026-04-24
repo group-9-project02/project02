@@ -1,4 +1,3 @@
-.env
 userDb.db
 .gradle
 build/

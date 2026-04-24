@@ -57,15 +57,24 @@ public class HomeController implements Initializable {
   }
 
 
-  //need to find a way to pass in the current users id   * 1 is a temp placeholder *
-  private int curUser = 2;
   @FXML
   public void initialize(URL url, ResourceBundle resourceBundle) {
     UserDatabase db = new UserDatabase();
+    int curUser = db.getCurrUser();
+    System.out.println("db " + curUser);
+    String albumsViewed = db.userReviewedAlbums(curUser);
+    if(albumsViewed == null){
+      albumsViewed = "No albums found";
+    }
 
-    albumList.getItems().add(db.userReviewedAlbums(curUser));
+    String reviewsMade = db.userReviewedAlbums(curUser);
+    if(reviewsMade == null){
+      reviewsMade = "No reviews posted";
+    }
 
-    reviewsList.getItems().add(db.getAllUserReviews(curUser));
+    albumList.getItems().add(albumsViewed);
+
+    reviewsList.getItems().add(reviewsMade);
 
   }
 }

@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 //import se.michaelthelin.spotify.model_objects.specification.User;
 
 
@@ -16,7 +18,8 @@ import java.sql.Statement;
 **/
 
 class UserDatabase {
-	
+
+	private static final Logger log = LoggerFactory.getLogger(UserDatabase.class);
 	private String dbName = "jdbc:sqlite:userDb.db";
 	
 	static String userInfo= "CREATE TABLE IF NOT EXISTS userInfo( userId INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE, password TEXT NOT NULL )";
@@ -289,12 +292,14 @@ public void updateReview(String update, int reviewId){
 			createTable.executeUpdate("drop table if exists userInfo");
 			createTable.executeUpdate("drop table if exists storedAlbums");
 			createTable.executeUpdate("drop table if exists userReviews");
+			createTable.executeUpdate("drop table if exists currentUser");
 		}catch (SQLException e){
 			System.out.println("Could not drop tables\nError: " + e.toString());
 		}
 		createTables();
 		
 	}
+
 	
 		
 		
@@ -319,15 +324,52 @@ public void updateReview(String update, int reviewId){
 				System.out.println(("Couldnt add user: "+ e.toString()));
 				}
 			}
+
+	public int getCurrUser(){
+		String sql = "SELECT userID FROM currentUser WHERE indexID = 1";
+
+		try (Connection connection = DriverManager.getConnection(dbName);
+				PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+			ResultSet rs = stmt.executeQuery();
+			System.out.println("get curr " + rs.getInt("userID"));
+			return rs.getInt("userID");
+		}catch(SQLException e){
+			System.out.println("Error finding user: " + e.getMessage());
+			return -1;
+		}
 	
-	public void getCurrUser(){
-		//need to implement
-	
+	}
+
+	public void dropCurrUser(){
+		try(Connection connection = DriverManager.getConnection(dbName)){
+			System.out.println(connection);
+			Statement createTable = connection.createStatement();
+			createTable.executeUpdate("drop table if exists currentUser");
+		}catch (SQLException e){
+			System.out.println("Could not drop tables\nError: " + e.toString());
+		}
+		createCurrUsers();
+	}
+
+	public void createCurrUsers(){
+		try(Connection connection = DriverManager.getConnection(dbName)){
+
+			Statement createTable  = connection.createStatement();
+			int j = createTable.executeUpdate("CREATE TABLE IF NOT EXISTS currentUser("
+					+ "userID INTEGER PRIMARY KEY, "
+					+ "indexID INTEGER NOT NULL , "
+					+ "loggedIN BOOLEAN NOT NULL)");
+		}catch (SQLException e){
+			System.out.println("Could not create tables\nError: " + e.toString());
+		}
 	}
 
 	public boolean validateUser(String username, String password) {
 
 		String sql = "SELECT * FROM userInfo WHERE name = ? AND password = ?";
+
+		dropCurrUser();
 
 		try (Connection connection = DriverManager.getConnection(dbName);
 				PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -336,8 +378,22 @@ public void updateReview(String update, int reviewId){
 			pstmt.setString(2, password);
 
 			ResultSet rs = pstmt.executeQuery();
+			boolean exists = rs.next();
+			System.out.println("exists: " + exists);
+			if(exists){
+				PreparedStatement pstmt2 = connection.prepareStatement("SELECT userID FROM userInfo WHERE name = ?");
+				pstmt2.setString(1, username);
+				ResultSet rs2 = pstmt2.executeQuery();
+				System.out.println("rs2 " + rs2.getInt("userID"));
 
-			return rs.next();
+				PreparedStatement pstmt3 = connection.prepareStatement("INSERT INTO currentUser(userID, indexID, loggedIN) VALUES (?,?,?)");
+				pstmt3.setInt(1, rs2.getInt("userID"));
+				pstmt3.setInt(2, 1);
+				pstmt3.setBoolean(3, true);
+				pstmt3.executeUpdate();
+				//logUser(rs2.getInt("userID"));
+			}
+			return exists;
 
 		} catch (SQLException e) {
 			System.out.println("Error validating user: " + e.getMessage());
